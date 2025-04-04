@@ -1,10 +1,35 @@
 body {
     background-color: rgb(45, 47, 48);
   }
+  .header {
+    background-color: rgb(28, 85, 66);
+  }
   h1 {
     color: rgb(146, 146, 182);
+    text-align: center;
+    font-size: x-large;
   }
   p {
-    color: rgb(54, 158, 135);
+    color: rgb(170, 218, 206);
+    text-align: center;
+    font-size: large;
   }
-    
+  .World-News {
+    width: 300px;
+    border: 15px solid green;
+    padding: 50px;
+    margin: 20px;
+  }
+  .Tech-News {
+    width: 300px;
+    border: 15px solid rgb(160, 38, 54);
+    padding: 50px;
+    margin: 20px;
+    align-items: center;
+  }
+  .Travel-News {
+    width: 300px;
+    border: 15px solid rgb(28, 25, 80);
+    padding: 50px;
+    margin: 20px;
+  }
