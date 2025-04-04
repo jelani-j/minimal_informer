@@ -16,7 +16,7 @@ body {
   }
   .content-wrapper{
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 2fr);
     border: rgb(7, 211, 194);
   } 
  
