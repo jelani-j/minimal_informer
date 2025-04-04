@@ -14,22 +14,9 @@ body {
     text-align: center;
     font-size: large;
   }
-  .World-News {
-    width: 300px;
-    border: 15px solid green;
-    padding: 50px;
-    margin: 20px;
-  }
-  .Tech-News {
-    width: 300px;
-    border: 15px solid rgb(160, 38, 54);
-    padding: 50px;
-    margin: 20px;
-    align-items: center;
-  }
-  .Travel-News {
-    width: 300px;
-    border: 15px solid rgb(28, 25, 80);
-    padding: 50px;
-    margin: 20px;
-  }
+  .content-wrapper{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: rgb(7, 211, 194);
+  } 
+ 
