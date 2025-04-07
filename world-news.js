@@ -24,10 +24,17 @@ function world_climate_headlines(){
 
 function tech_news_headlines(){
   const url = 'https://brutalist.report/topic/tech?'
+  const parser = require('cheerio')
   axios.get(url).then(response =>{
     const html = response.data;
+    const headlines = [];
+    const doc = parser.load(html);
+    doc('li').each((index, element) => {
+      headlines.push(doc(element).text().trim('\n +'));
+    });
+    console.log(headlines);
   })
-
+  
 }
 
 tech_news_headlines();
