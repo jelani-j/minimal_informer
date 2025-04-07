@@ -17,10 +17,11 @@ function world_climate_headlines(){
     });
     console.log(headlines);
     return{headlines}
+    
   })
 }
 
-//world_climate_headlines();
+world_climate_headlines();
 
 function tech_news_headlines(){
   const url = 'https://brutalist.report/topic/tech?'
