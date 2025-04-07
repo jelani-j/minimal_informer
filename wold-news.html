@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="world-news.js"></script>
+        <script type = "module" src="world-news.js"></script>
         <link rel="stylesheet" href="style.css">
         <style>
             div {text-align: center;}
@@ -18,7 +18,7 @@
             </div>
         </header>
         <div class = World-News-Buttons>
-            <button class = Enviroment>
+            <button class = Enviroment onclick="world_climate_headlines()">
                 Enviroment
             </button>
             <button class = Global>
@@ -29,9 +29,7 @@
             </button>
         </div>
         <div class = Information>
-            <script class = Info>
-                world_climate_headlines();
-            </script>
+           
         </div>
     </body>
     <footer>
