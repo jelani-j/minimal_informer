@@ -2,9 +2,6 @@ import { STSClient, AssumeRoleCommand } from "@aws-sdk/client-sts";
 import { SSMClient, GetParameterCommand} from "@aws-sdk/client-ssm";
 import {fromIni} from "@aws-sdk/credential-provider-ini";
 const arn = "arn:aws:iam::203662895152:role/java-sdk-role";
-const parameterArn = 'arn:aws:ssm:us-east-2:203662895152:parameter/gnews-api';
-var api_key = "";
-
 const stsClient = new STSClient({ region: "us-east-2"});
 
 async function assume_role(){
@@ -29,16 +26,19 @@ async function assume_role(){
       WithDecryption: true,
     });
     const response = await ssmClient.send(getParameterCommand);
-    console.log("Paramater Response:", response.Parameter.Value);
+    return response.Parameter.Value;
   } catch(err){
     console.error("AssumeRole Failed:");
     console.error(err);
   }
 }
 
-assume_role();
+async function main(){
+  const key = await assume_role();
+  console.log(key);
+}
 
-
+main();
 
 // async function assumeRoleAndExecuteSSMCommand() {
 //   try {
