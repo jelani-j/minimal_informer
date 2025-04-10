@@ -33,57 +33,21 @@ async function assume_role(){
   }
 }
 
-async function main(){
-  const key = await assume_role();
-  console.log(key);
+async function world_news_enviroment(){
+  const api_key = await assume_role();
+  const url = 'https://gnews.io/api/v4/search?q=example&lang=en&country=us&max=10&apikey=' + api_key;
+  fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const articles = data.articles;
+        articles.forEach(article => {
+          console.log('Title:', article.title);
+          console.log('Description:', article.description);
+        });
+      })
+      .catch(error => console.error('Error:', error));
 }
 
-main();
 
-// async function assumeRoleAndExecuteSSMCommand() {
-//   try {
-//       // Assume the role
-//       const assumeRoleCommand = new AssumeRoleCommand(assumeRoleParams);
-//       const assumeRoleResponse = await STSClient.send(assumeRoleCommand);
-
-//       // Configure SSM client with assumed role credentials
-//       const ssmClient = new SSMClient({
-//           region: "us-east-2",
-//           credentials: {
-//               accessKeyId: assumeRoleResponse.Credentials.AccessKeyId,
-//               secretAccessKey: assumeRoleResponse.Credentials.SecretAccessKey,
-//               sessionToken: assumeRoleResponse.Credentials.SessionToken,
-//           },
-//       });
-//     }catch (error) {
-//       console.error("Error:", error);
-//     }
-//   }
-
-//   assumeRoleAndExecuteSSMCommand();
-
-// const getParameterValue = async (parameterArn) => {
-//   const command = new GetParameterCommand({
-//     Name: parameterArn,
-//     WithDecryption: true,
-//   });
-
-//   try {
-//     const response = await ssmClient.send(command);
-//     return response.Parameter.Value;
-//   } catch (error) {
-//     console.error("Error retrieving parameter:", error);
-//     throw error;
-//   }
-// };
-
-// const parameterArn = 'arn:aws:ssm:us-east-2:203662895152:parameter/gnews-api';
-
-// getParameterValue(parameterArn)
-//   .then((value) => {
-//     console.log("Parameter value:", value);
-//   })
-//   .catch((error) => {
-//     // Handle the error appropriately
-//   });
+world_news_enviroment();
 
