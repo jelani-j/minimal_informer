@@ -37,12 +37,13 @@ async function assume_role(){
     console.error(err);
   }
 }
+
 //Enviromental Disaster
 async function world_news_enviroment(){
   const api_key = await assume_role();
   const query = 'environmental disaster OR earthquake OR flood OR wildfire OR hurricane OR drought OR landslide OR typhoon';
   const encodedQuery = encodeURIComponent(query);
-  const url = 'https://gnews.io/api/v4/search?q=' + encodedQuery + '&lang=en&token=' + api_key;
+  const url = 'https://gnews.io/api/v4/search?q=' + encodedQuery + '&lang=en&max=10&token=' + api_key;
   fetch(url)
       .then(response => response.json())
       .then(data => {
@@ -55,7 +56,6 @@ async function world_news_enviroment(){
       .catch(error => console.error('Error:', error));
  }
 
-world_news_enviroment();
 
 // async function world_news_global(){
 //   const api_key = await assume_role();
