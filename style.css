@@ -40,6 +40,15 @@ body {
   .Enviroment:hover, .Global:hover, .Local:hover, .back-button:hover{
     background-position: bottom;
   }
+  .world_news_table, tr, th, td{
+    width: 50%;
+    color: #fff;
+
+    border: 1px solid;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
   .back-button{
     font-size: 20px;
     padding: 10px 250px;
