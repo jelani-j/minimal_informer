@@ -13,7 +13,7 @@ const filePath = "api_data.json";
 
 //when using await for api pull, you must also await it 
 
-async function assume_role(){
+export async function assume_role(){
   const command = new AssumeRoleCommand({
     RoleArn: arn,
     RoleSessionName: "JellyDevTestSession"
@@ -99,7 +99,7 @@ async function local_news(){
 }
 
 
-function writeArrayOfDictToJson(filePath, array) {
+export function writeArrayOfDictToJson(filePath, array) {
   const jsonString = JSON.stringify(array, null, 2); // Convert array to JSON string with indentation
   fs.writeFile(filePath, jsonString, (err) => {
     if (err) {
