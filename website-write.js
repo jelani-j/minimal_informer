@@ -1,6 +1,5 @@
-
+// below is for local testing not on browser
 // const fs = require('fs');
-  
 // function displaytable(array_name, section){
 //   fs.readFile('./api_data.json', 'utf8', (err, json) => {
 //     try {
@@ -25,7 +24,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Fetch JSON once and cache it
     let jsonData = null;
-
+    //create function to display data to page via key/value pair to table
     function displayTable(data, arrayName, sectionIndex) {
       const entry = data[arrayName]?.[sectionIndex];
     
@@ -51,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
       output.appendChild(table);
     }
-
+    //grab actual data from json file here
     fetch('api_data.json')
       .then(response => {
         if (!response.ok) throw new Error('Failed to load JSON');
@@ -59,21 +58,18 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .then(data => {
         jsonData = data;
-  
-        // Add button event listeners
+        // Add button event listeners here
+        //global news page
         document.getElementById('environment_news_button').addEventListener('click', () => {
           displayTable(jsonData, 'world_news', 0);
         });
-
         document.getElementById('global_news_button').addEventListener('click', () => {
           displayTable(jsonData, 'world_news', 1);
         });
-
         document.getElementById('local_news_button').addEventListener('click', () => {
           displayTable(jsonData, 'world_news', 2);
         });
-
+        // tech news page
 
       });
 });
-
