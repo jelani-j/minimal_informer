@@ -13,6 +13,7 @@
         </title>
     </head>
     <body>
+        
         <header class = header>
             <div class = Header-Wrapper>
                 <h1>The Minimal Informer</h1>
@@ -21,25 +22,27 @@
         </header>
         <div class = World-News-Buttons>
             
-            <button class = Enviroment>
+            <button class = "Environment" id = "environment_news_button">
                 Enviroment
             </button>
-            <button class = Global>
+            <button class = Global id = "global_news_button">
                 Global
             </button>
-            <button class = Local>
+            <button class = Local id = "local_news_button">
                 Local
             </button>
         </div>
-        <table class = "world_news_table">
-            <!-- <tr>
+        <div id="table-output"></div>
+        <!-- <table class = "world_news_table">
+            <tr>
                 <th>Title</th>
-            </tr> -->
+            </tr>
             <tr>
                 <td>Titles will go here</td>
                 <td> Decriptions will go here</td>
             </tr>
-        </table>
+        </table> -->
+        <script type="module" src="website-write.js"></script>
     </body>
     <footer>
         <a href="index.html">

@@ -27,7 +27,7 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 30fr);
   }
-  .Enviroment, .Global, .Local, .back-button{
+  .Environment, .Global, .Local, .back-button{
     display: inline-flexbox;
     color: #fff;
     padding: 10px 20px;
