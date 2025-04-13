@@ -55,9 +55,9 @@ async function world_news_enviroment(){
         articles.forEach(article => {
           climate_dict[article.title] = article.description;
         });
-        world_news_dict.push(climate_dict);
       })
       .catch(error => console.error('Error:', error));
+  return {name: 'Enviroment', data: climate_dict};
  }
 
 // global news
@@ -76,6 +76,7 @@ async function world_news_global(){
         world_news_dict.push(global_dict);
       })
       .catch(error => console.error('Error:', error));
+  return {name: 'Global', data: global_dict};
 }
 
 //local news
@@ -94,6 +95,7 @@ async function local_news(){
         world_news_dict.push(local_dict);
       })
       .catch(error => console.error('Error:', error));
+  return {name: 'Local', data: local_dict};
 }
 
 
@@ -109,9 +111,12 @@ function writeArrayOfDictToJson(filePath, array) {
 }
 
 async function savedata(){
-  await Promise.all([world_news_enviroment(), world_news_global(), local_news()]);
+  const enviroment_data = await world_news_enviroment();
+  const global_data = await world_news_global();
+  const local_data = await local_news();
+  const world_news_dict = {world_news : [enviroment_data, global_data, local_data]};
+
   writeArrayOfDictToJson(filePath, world_news_dict);
 }
 
-// savedata().then(result =>{ console.log(result)});
-savedata().then(data => {console.log(data)});
+savedata();
