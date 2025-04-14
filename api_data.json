@@ -1,3 +1,4 @@
+
 {
   "world_news": [
     {
@@ -18,16 +19,16 @@
     {
       "name": "Global",
       "data": {
-        "Palestinian medic attacked in Gaza is being detained in Israel, says ICRC": "Palestinian Red Crescent says Assad al-Nsasrah was ‘forcibly abducted’ while carrying out humanitarian work",
-        "Japan’s ‘Baba Vanga’ predicts mega-tsunami for July 2025-should we be concerned": "Zodiacs & Astrology News: Ryo Tatsuki, dubbed the 'Baba Vanga of Japan,' has predicted a mega-tsunami in July 2025, sparking global concern. Known for her past accurate prophec",
-        "Xi Jinping seeks to strengthen economic ties during tour of south-east Asia": "President’s first stop is Vietnam as China urges US to end trade war and return to ‘right path of mutual respect’",
-        "Gabon military leader Brice Oligui Nguema wins presidential election": "Head of caretaker government and leader of 2023 coup wins presidential race, according to provisional results.",
-        "Trump admin to declare separate tariffs for exempted electronics, semiconductors": "On Friday, the Trump administration had granted exclusions from tariffs on some electronic products and semi conductors.",
-        "Pennsylvania governor evacuated from suspected arson attack on home": "Authorities say the fire caused \"a significant amount of damage to a portion of the residence\" in the state capital.",
-        "Pope defies doctors and greets crowds in Vatican square": "Pope Francis delighted Catholic worshippers with an impromptu tour of St Peter's Square at the end of a Palm Sunday service, against the advice of his doctors to avoid crowds while recovering from pneumonia.",
-        "Donald Trump undergoes first medical exam since White House return: 5 key points": "US News: The White House announced President Trump is \"fully fit\" following his first medical check-up of his second term. The examination, conducted by Capt.",
-        "Pharmaceuticals 'need to be made in America' says US Commerce Secretary after temporary tariff halt": "The Trump Administration has not yet targeted the pharmaceutical sector with its wide-ranging tariffs.",
-        "China’s defiance explained: Why Xi doesn’t fear Trump’s trade war": "Instead of conceding to US traffic pressure, Beijing has pursued an alternative strategy, prioritizing internal reforms and expanding its economic partnerships globally."
+        "Telugu Student Deepthi Vangavolu Critically Injured in Hit-and-Run in Texas": "A Telugu student, Deepthi Vangavolu, is in critical condition after being struck in a hit-and-run accident in Denton, Texas, according to reports received on Monday.",
+        "Hungary's parliament votes to limit rights of dual nationals and LGBTQ+ people": "The amendments will enable the government to ban public LGBTQ+ gatherings like Pride parades.",
+        "Donald Trump says the US could deport 'homegrown criminals' to El Salvador jail": "The Trump administration has sent hundreds of alleged Venezuelan gang members to a notorious facility in El Salvador, since March, but the president has now suggested that \"homegrown criminals\" could also be sent there.",
+        "Southern California rocked by a strong earthquake near San Diego": "Southern California was rocked by a strong earthquake Monday morning near San Diego.",
+        "Republican supporters of Ukraine put pressure on Trump after missile strikes": "Lawmakers use Kremlin’s deadly attacks as latest evidence to convince president he must increase pressure on Putin",
+        "Magnitude 5.2 earthquake hits San Diego, tremors felt in Southern California; ‘Stay alert for aftershocks'": "An earthquake with a magnitude of 5.2 occurred Monday morning close to San Diego, reported the U.S. Geological Survey.",
+        "'How can I': Nayib Bukele says he can't return mistakenly deported Maryland man back to US": "US News: El Salvador president Nayib Bukele said he does not have the power to return Kilmar Armando Abrego Garcia who was mistakenly deported to his country b.",
+        "Birmingham bin strike to continue as deal rejected": "The month-long walkout has seen bin bags and fly-tipped rubbish piled high on Birmingham's streets.",
+        "China slaps tit-for-tat visa curbs on US officials over Tibetan issues": "China issued visa restrictions on US officials in retaliation after the White House issued visa curbs on Chinese officials as well.",
+        "El Salvador president refuses to release wrongly deported man back to the US": "Kilmar Abrego Garcia has not been returned to the US despite court orders to do so."
       }
     },
     {
@@ -43,6 +44,53 @@
         "Manchester Road Race 2022: Division Winners, Area Town Bragging Rights": "Manchester Road Race 2022: Division Winners, Area Town Bragging Rights - Across Connecticut, CT - Division winners of the 86th Manchester Road Race, plus the first male and female finishers from Hartford and Tolland County Patch towns.",
         "State Police Dispatcher Caught In Manchester Drug Sting, Now On Leave": "State Police Dispatcher Caught In Manchester Drug Sting, Now On Leave - Manchester, CT - A dispatcher for the Connecticut State Police was arrested in a drug sting in Manchester, authorities said.",
         "August Air Conditioner Search - Which North Central CT Town Had It?": "August Air Conditioner Search — Which North Central CT Town Had It? - Manchester, CT - The search was on Tuesday for a particular air conditioning unit in north central Connecticut."
+      }
+    }
+  ],
+  "tech_news": [
+    {
+      "name": "Cloud",
+      "data": {
+        "Trump’s new energy order puts states’ climate laws in the crosshairs of the Department of Justice": "President Trump’s order comes as US electricity demand ramps up to meet the growth of artificial intelligence and cloud computing applications, as well as federal efforts to expand high-tech manufacturing.",
+        "Axiom Space to launch orbital data centers on Kepler satellites": "Axiom Space will fly two data centers on Kepler Communications satellites as the next step of its efforts to develop space-based cloud computing services.",
+        "Coal-fired power plant, now retired, to become massive gas-powered campus for AI, data centers": "HARRISBURG, Pa. (AP) — The owners of what was once Pennsylvania's biggest coal-fired power plant said Wednesday that they will turn it into a $10 billion natural gas-powered data center campus designed to capitalize on the fast-growing energy demands of Big Tech companies to power artificial intelligence and cloud computing applications.",
+        "Does CoreWeave's disappointing IPO signal an AI bubble?": "Nvidia-backed AI and cloud computing company CoreWeave made its market debut on Friday to little applause",
+        "Super Micro could become the world's largest server vendor by the end of the year as it experiences meteoric rise": "Hyperscalers dominate server sales, reinforcing cloud computing’s growing influence",
+        "Wired for wellness: How IoMT is rebooting global healthcare": "Devices such as smartwatches, biosensors, and implantable monitors are now routinely used to track blood pressure, glucose levels, heart rate, and more. The health data generated by these devices can be processed through cloud computing and artificial intelligence platforms to support diagnostics, treatment decisions, and patient management.",
+        "Microsoft posts weekly gain to end longest losing streak since 2008": "Microsoft faces competition in cloud computing from companies such as Google, which is looking to boost its security business with Wiz.",
+        "Singapore 'gravely concerned' about resumption of hostilities in Gaza; Oracle to provide MINDEF, SAF with cloud computing, AI services: Singapore live news": "Yahoo Singapore is featuring a curated selection of some of the biggest, most important, and fascinating news that's making waves online.",
+        "Why Google made a $32 billion bet on Wiz": "Google has announced its acquiring Wiz for $32 billion, a move that could help the company close the gap with Amazon and Microsoft’s cloud computing businesses.",
+        "Google to buy cybersecurity firm Wiz for $32 billion in biggest deal in company's history": "The proposed takeover is part of Google's aggressive expansion into cloud computing during an artificial intelligence boom"
+      }
+    },
+    {
+      "name": "Coding",
+      "data": {
+        "Google launches Firebase Studio, a free AI coding tool and alternative to Cursor, Bolt, and v0 for building full-stack apps": "Google just shook up the developer tool space with something that’s bound to get attention: Firebase Studio — a browser-based, AI-driven development environment that’s free and feels like it was made to challenge tools like Cursor, Bolt, and v0 head-on. Announced Wednesday at Google Cloud Next, Firebase Studio isn’t just another dev tool. It’s a",
+        "Vibe coding at enterprise scale: AI tools now tackle the full development lifecycle": "Enterprise AI application development is moving forward with a new generation of vibe coding tools.",
+        "From Software's Switch 2 Exclusive Was Originally Pitched For The Original Switch": "The From Software title exclusive to Switch 2 started development for its predecessor.",
+        "Devin 2.0 is here: Cognition slashes price of AI software engineer to $20 per month from $500": "Devin attracted interest from enterprise customers seeking to incorporate autonomous coding agents into their software development processes.",
+        "The Best Way to Work with ORM in .NET: A Practical Guide for Developers": "Ever wondered what ORM in .NET is and why developers rave about it? ORM, or Object-Relational Mapping, is a game-changer in modern software development, especially within the .NET Framework. It bridges the gap between the object model used in C# applications and the relational database that stores persistent data. Introduced to simplify data access layers,",
+        "Is AI set to take over coding? Unpacking the debate over jobs, future of software development": "Amid concerns about the impact of AI on coding, Anthropic CEO Dario Amodei recently made a proclamation that left many rattled.",
+        "IT titans at war: Cognizant denies slow-roll plot by its CEO to hurt Infosys": "New Jersey-headquartered Cognizant labelled “preposterous” Infosys’s allegations that the former had hired current chief executive officer S. Ravi Kumar to slow down the development of Infosys’s healthcare software product (Helix).",
+        "SiFive HiFive Premier P550 Review: A True RISC-V Dev Kit Platform Emerges": "SiFive's latest development kit makes running RISC-V software a reality on real silicon while sporting lots of IO.",
+        "Exploring the relationship between non-coding RNAs and oxidative stress in cancer progression": "A new review article published in Genes & Diseases explores the intricate relationship between non-coding RNAs and oxidative stress in cancer progression shedding new light on the mechanisms that drive tumor development.",
+        "Will the future of software development run on vibes?": "Accepting AI-written code without understanding how it works is growing in popularity."
+      }
+    },
+    {
+      "name": "Hardware",
+      "data": {
+        "I am thrilled by Nvidia’s cute petaflop mini PC wonder, and it’s time for Jensen’s law: it takes 100 months to get equal AI performance for 1/25th of the cost": "Nvidia’s desktop super computer is probably the greatest revolution in tech hardware since the IBM PC",
+        "Switch 2 leaks point to controllers that work like computer mice": "Circumstantial rumors suggest a new hybrid hardware gimmick might be in the works.",
+        "Microsoft develops GreenSKU framework to limit environmental cost of server hardware": "Ashkitha Sriraman, a computer science professor at Carnegie Mellon that is involved in the program, notes that it is not uncommon for an entire server to be...",
+        "Want to save your old computer? Try these 6 Linux distros": "Here's how to save money, reduce e-waste, and extend the life of your old hardware at the same time.",
+        "Today in Apple history: Too little, too late for Apple III": "On December 1, 1981, the Apple III relaunch addressed the computer's biggest hardware faults as the company did damage control.",
+        "Don't be misled by retailers this Black Friday: Double-check for these AI specs on any Windows 11 Copilot+ PC": "If you plan to buy a Copilot+ PC during Black Friday or Cyber Monday, be aware that some retailers may try to deceive you into buying something that's not. In this guide, I will outline the hardware specifications you have to look for to make sure you're getting a truly AI-powered computer.",
+        "Super Micro Computer stock soars 30% as it avoids Nasdaq de-listing": "The AI hardware company hired a new auditor and submitted a detailed compliance plan to the Nasdaq",
+        "Super Micro Computer stock craters. Will it get delisted by Nasdaq?": "The AI-focused hardware company has just two days to submit a plan to Nasdaq to stay in compliance",
+        "Super Micro Computer stock bleeds as it can't say when earnings will post": "Shares of the AI hardware maker hit a new 52-week low after it reported unaudited quarterly results because its auditor quit",
+        "Where Will Super Micro Computer Stock Be in 1 Year?": "Can the hardware maker recover from this latest crisis?"
       }
     }
   ]
