@@ -5,6 +5,7 @@ const arn = "arn:aws:iam::203662895152:role/java-sdk-role";
 const stsClient = new STSClient({ region: "us-east-2"});
 export const filePath = "api_data.json";
 
+
 export async function assume_role(){
   const command = new AssumeRoleCommand({
     RoleArn: arn,
@@ -75,3 +76,4 @@ export function writeArrayOfDictToJson(filePath, array) {
     });
   });
 }
+

@@ -1,15 +1,12 @@
 import { STSClient, AssumeRoleCommand } from "@aws-sdk/client-sts";
 import { SSMClient, GetParameterCommand} from "@aws-sdk/client-ssm";
-import {assume_role, writeArrayOfDictToJson, filePath} from './common_functions.js';
-import * as fs from 'fs';
-const arn = "arn:aws:iam::203662895152:role/java-sdk-role";
-const stsClient = new STSClient({ region: "us-east-2"});
+import {assume_role, writeArrayOfDictToJson, filePath} from './api_run_functions.js';
+
 // dictionaries for different news sources
 const world_news_dict = []; // all world news dicts will be stored in here
 let climate_dict = {};
 let global_dict = {};
 let local_dict = {};
-
 
 //Enviromental Disaster
 async function world_news_enviroment(){
@@ -27,7 +24,7 @@ async function world_news_enviroment(){
       })
       .catch(error => console.error('Error:', error));
   return {name: 'Enviroment', data: climate_dict};
- }
+}
 
 // global news
 async function world_news_global(){

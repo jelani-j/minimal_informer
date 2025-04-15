@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import {assume_role, writeArrayOfDictToJson, filePath} from './common_functions.js';
+import {assume_role, writeArrayOfDictToJson, filePath} from './api_run_functions.js';
 
 let tech_array = [];
 let cloud_data = {};

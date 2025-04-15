@@ -1,3 +1,4 @@
+import {displayTable} from './website_functions.js';
 // below is for local testing not on browser
 // const fs = require('fs');
 // function displaytable(){
@@ -20,40 +21,11 @@
 
 // displaytable()
 
-
+// World News Triggers
 document.addEventListener('DOMContentLoaded', () => {
     // Fetch JSON once and cache it
     let jsonData = null;
     //create function to display data to page via key/value pair to table
-    function displayTable(data, arrayName, sectionIndex) {
-      const entry = data[arrayName]?.[sectionIndex];
-    
-      const output = document.getElementById('table-output');
-      const tech_output = document.getElementById('table-output-tech');
-      output.innerHTML = ''; // clear previous content
-      //tech_output.innerHTML = '';
-    
-      if (!entry) {
-        output.textContent = `No data found for ${arrayName}[${sectionIndex}]`;
-        return;
-      }
-    
-      const title = document.createElement('h2');
-      title.textContent = 'Table Name: ' + entry.name;
-      output.appendChild(title);
-      //tech_output.appendChild(title);
-    
-      const table = document.createElement('table');
-    
-      Object.entries(entry.data || {}).forEach(([key, value]) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `<td><strong>${key}</strong></td><td>${value}</td>`;
-        table.appendChild(row);
-      });
-    
-      output.appendChild(table);
-      //tech_output.appendChild(table);
-    }
     //grab actual data from json file here
     fetch('api_data.json')
       .then(response => {
@@ -65,58 +37,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add button event listeners here
         //global news page
         document.getElementById('environment_news_button').addEventListener('click', () => {
-          displayTable(jsonData, 'world_news', 0);
+          displayTable(jsonData, 'world_news', 0, 'table-output');
         });
         document.getElementById('global_news_button').addEventListener('click', () => {
-          displayTable(jsonData, 'world_news', 1);
+          displayTable(jsonData, 'world_news', 1, 'table-output');
         });
         document.getElementById('local_news_button').addEventListener('click', () => {
-          displayTable(jsonData, 'world_news', 2);
+          displayTable(jsonData, 'world_news', 2, 'table-output');
         });
-        // tech news page
-        document.getElementById('cloud_news_button').addEventListener('click', () => {
-          displayTable(jsonData, 'tech_news', 0);
-        });
-        document.getElementById('software_news_button').addEventListener('click', () => {
-          displayTable(jsonData, 'tech_news', 1);
-        });
-        document.getElementById('hardware_news_button').addEventListener('click', () => {
-          displayTable(jsonData, 'tech_news', 2);
-        });
-
       });
 });
 
+// Tech News Triggers
 document.addEventListener('DOMContentLoaded', () => {
   // Fetch JSON once and cache it
   let jsonData = null;
-  //create function to display data to page via key/value pair to table
-  function displayTable(data, arrayName, sectionIndex) {
-    const entry = data[arrayName]?.[sectionIndex];
-  
-    const tech_output = document.getElementById('table-output-tech');
-    tech_output.innerHTML = '';
-  
-    if (!entry) {
-      tech_output.textContent = `No data found for ${arrayName}[${sectionIndex}]`;
-      return;
-    }
-  
-    const title = document.createElement('h2');
-    title.textContent = 'Table Name: ' + entry.name;
-    tech_output.appendChild(title);
-
-  
-    const table = document.createElement('table');
-  
-    Object.entries(entry.data || {}).forEach(([key, value]) => {
-      const row = document.createElement('tr');
-      row.innerHTML = `<td><strong>${key}</strong></td><td>${value}</td>`;
-      table.appendChild(row);
-    });
-  
-    tech_output.appendChild(table);
-  }
   //grab actual data from json file here
   fetch('api_data.json')
     .then(response => {
@@ -128,13 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
       // Add button event listeners here
       // tech news page
       document.getElementById('cloud_news_button').addEventListener('click', () => {
-        displayTable(jsonData, 'tech_news', 0);
+        displayTable(jsonData, 'tech_news', 0, 'table-output-tech');
       });
       document.getElementById('software_news_button').addEventListener('click', () => {
-        displayTable(jsonData, 'tech_news', 1);
+        displayTable(jsonData, 'tech_news', 1, 'table-output-tech');
       });
       document.getElementById('hardware_news_button').addEventListener('click', () => {
-        displayTable(jsonData, 'tech_news', 2);
+        displayTable(jsonData, 'tech_news', 2, 'table-output-tech');
       });
 
     });
