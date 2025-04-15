@@ -1,25 +1,4 @@
 import {displayTable} from './website_functions.js';
-// below is for local testing not on browser
-// const fs = require('fs');
-// function displaytable(){
-//   fs.readFile('./api_data.json', 'utf8', (err, json) => {
-//     try {
-//       const data = JSON.parse(json);
-//       // const entries = data[array_name][section];
-//       console.log(data['world_news']);
-//       // table creation elements for looping (dynamic)
-//       // console.log('Table Name:' + entries.name);
-//       // Object.keys(entries.data).forEach(key => {
-//       //   console.log(`Key: ${key}`);
-//       //   console.log(`Value: ${entries.data[key]}`);
-//       // });
-//     } catch (err) {
-//       console.error('Error parsing JSON:', err);
-//     }
-//   });
-// }
-
-// displaytable()
 
 // World News Triggers
 document.addEventListener('DOMContentLoaded', () => {
