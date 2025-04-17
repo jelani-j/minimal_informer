@@ -21,4 +21,4 @@ export function displayTable(data, arrayName, sectionIndex, tablename) {
       table.appendChild(row);
     });
     output.appendChild(table);
-  }
+}

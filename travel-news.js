@@ -1,6 +1,5 @@
 // scrape-and-save.js
 import * as cheerio from 'cheerio';
-import * as fs from 'fs';
 import {assume_role, writeArrayOfDictToJson, filePath} from './api_run_functions.js';
 
 let travel_news_array = [];
@@ -20,13 +19,12 @@ async function advisoryList(){
       const tds = $(row).find('td');
       const country = $(tds[0]).text().trim();
       const advisory = $(tds[1]).text().trim();
-
+      
       if (/Level [2-4]/.test(advisory)) {
         advisory_data[country] = advisory;
       }
     });
-    // fs.writeFileSync('travel-data.json', JSON.stringify(results, null, 2));
-    console.log(travel_news_array);
+
   })
   .catch(err => console.error('Error:', err));
   return {name: 'Advisory', data: advisory_data};

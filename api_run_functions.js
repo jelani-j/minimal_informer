@@ -6,6 +6,7 @@ const stsClient = new STSClient({ region: "us-east-2"});
 export const filePath = "api_data.json";
 
 
+
 export async function assume_role(){
   const command = new AssumeRoleCommand({
     RoleArn: arn,
@@ -33,6 +34,20 @@ export async function assume_role(){
     console.error("AssumeRole Failed:");
     console.error(err);
   }
+}
+
+export async function gnews_fetch(full_url, dict, dict_name){
+  const url = full_url
+  await fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      const articles = data.articles;
+      articles.forEach(article => {
+        dict[article.title] = article.description;
+      });
+    })
+    .catch(error => console.error('Error:', error));
+  return {name: dict_name, data: dict};
 }
 
 export function writeArrayOfDictToJson(filePath, array) {
@@ -76,4 +91,5 @@ export function writeArrayOfDictToJson(filePath, array) {
     });
   });
 }
+
 

@@ -1,5 +1,4 @@
-import * as fs from 'fs';
-import {assume_role, writeArrayOfDictToJson, filePath} from './api_run_functions.js';
+import {assume_role, writeArrayOfDictToJson, filePath, gnews_fetch} from './api_run_functions.js';
 
 let tech_array = [];
 let cloud_data = {};
@@ -11,17 +10,8 @@ async function cloud_computing_info(){
     const query = 'Cloud Computing';
     const encodedQuery = encodeURIComponent(query);
     const url = 'https://gnews.io/api/v4/search?q=' + encodedQuery + '&lang=en&max=10&apikey=' + api_key;
-    await fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        const articles = data.articles;
-        articles.forEach(article => {
-            cloud_data[article.title] = article.description;
-        });
-        tech_array.push(cloud_data);
-      })
-      .catch(error => console.error('Error:', error));
-    return {name: 'Cloud', data: cloud_data};
+    const cloudResult = await gnews_fetch(url, cloud_data, 'Cloud');
+    return cloudResult;
 }
 
 async function coding_info(){
@@ -29,17 +19,8 @@ async function coding_info(){
   const query = 'coding OR programming OR software development';
   const encodedQuery = encodeURIComponent(query);
   const url = 'https://gnews.io/api/v4/search?q=' + encodedQuery + '&lang=en&max=10&apikey=' + api_key;
-  await fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      const articles = data.articles;
-      articles.forEach(article => {
-        coding_data[article.title] = article.description;
-      });
-      tech_array.push(coding_info);
-    })
-    .catch(error => console.error('Error:', error));
-  return {name: 'Coding', data: coding_data};
+  const codingResult = await gnews_fetch(url, coding_data, 'Coding');
+  return codingResult;
 }
 
 async function hardware_info(){
@@ -47,17 +28,8 @@ async function hardware_info(){
   const query = 'Computer Hardware';
   const encodedQuery = encodeURIComponent(query);
   const url = 'https://gnews.io/api/v4/search?q=' + encodedQuery + '&lang=en&max=10&apikey=' + api_key;
-  await fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      const articles = data.articles;
-      articles.forEach(article => {
-        hardware_data[article.title] = article.description;
-      });
-      tech_array.push(coding_info);
-    })
-    .catch(error => console.error('Error:', error));
-  return {name: 'Hardware', data: hardware_data};
+  const hardwareResult = await gnews_fetch(url, hardware_data, 'Hardware');
+  return hardwareResult;
 }
 
 async function savedata(){
