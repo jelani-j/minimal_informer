@@ -53,3 +53,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 });
+
+//Travel News Triggers
+document.addEventListener('DOMContentLoaded', () => {
+  // Fetch JSON once and cache it
+  let jsonData = null;
+  //grab actual data from json file here
+  fetch('api_data.json')
+    .then(response => {
+      if (!response.ok) throw new Error('Failed to load JSON');
+      return response.json();
+    })
+    .then(data => {
+      jsonData = data;
+      // Add button event listeners here
+      // tech news page
+      document.getElementById('advisory_news_button').addEventListener('click', () => {
+        displayTable(jsonData, 'travel_news', 0, 'table-output-travel');
+      });
+      document.getElementById('vacation_news_button').addEventListener('click', () => {
+        displayTable(jsonData, 'travel_news', 1, 'table-output-travel');
+      });
+      document.getElementById('transportation_news_button').addEventListener('click', () => {
+        displayTable(jsonData, 'travel_news', 2, 'table-output-travel');
+      });
+
+    });
+    
+});
