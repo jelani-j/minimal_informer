@@ -32,7 +32,7 @@ async function hardware_info(){
   return hardwareResult;
 }
 
-async function savedata(){
+export async function tech_savedata(){
   const cloud_computing_data = await cloud_computing_info();
   const coding_news_data = await coding_info();
   const hardware_news_data = await hardware_info();
@@ -40,5 +40,3 @@ async function savedata(){
 
   writeArrayOfDictToJson(filePath, world_news_dict);
 }
-
-savedata()

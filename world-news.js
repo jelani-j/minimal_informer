@@ -33,12 +33,10 @@ async function local_news(){
   return localResult;
 }
 
-async function savedata(){
+export async function world_savedata(){
   const enviroment_data = await world_news_enviroment();
   const global_data = await world_news_global();
   const local_data = await local_news();
   const world_news_dict = {world_news : [enviroment_data, global_data, local_data]};
   writeArrayOfDictToJson(filePath, world_news_dict);
 }
-
-savedata();

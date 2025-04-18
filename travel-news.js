@@ -67,12 +67,10 @@ async function japan_events(){
   return {name: 'Japan', data: japanese_holidays};
 }
 
-async function savedata(){
+export async function travel_savedata(){
   const advisory_data = await advisoryList();
   const german_data = await german_events();
   const japan_data = await japan_events();
   const travel_news_dict = {travel_news : [advisory_data, german_data, japan_data]};
   writeArrayOfDictToJson(filePath, travel_news_dict);
 }
-
-savedata();
