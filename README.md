@@ -17,4 +17,4 @@ This project has many files, in order to build and launch the website, below I w
 #### Data Population
 - "main": this file makes a call to all of the other website pages to store the data to api_data, this is ran once a week to ensure the information stays up to date. this first clears all of the information in the api_data file before writing to it again.
 ## General Flow
-![Diagram](local_diagram.drawio)
+![Diagram](images\local_diagram.png)
