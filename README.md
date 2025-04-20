@@ -4,7 +4,7 @@
 A minimal news site with the purpose of keeping users informed about events going on within the world without getting overwhelmed.
 The project has three main topics: Technology, World News, and Travel News.
 This Project utelizes gnews.io API as well as Web-Scrapping to poll data and display it to users.
-### Code Setup
+## Code Setup
 This project has many files, in order to build and launch the website, below I will define what each one does.
 #### Dynamic Function Calls
 - "api_run_functions":  contains assume role function + fetch url function + write to json file function
