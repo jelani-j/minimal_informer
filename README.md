@@ -6,5 +6,5 @@ This project will be utilizing Amaozon Web Services and hosting a website via S3
 The project will primairly use javascript to update and create the website which will use three API's to post various news sources & information
 
 ## AWS Topology
-![Diagram](images\chart.drawio.png)
+![Diagram](images/chart.drawio.png)
 
