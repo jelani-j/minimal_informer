@@ -1,10 +1,13 @@
 ---
-AWSTemplateFormatVersion: 1.0
-
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
 
 Parameters:
   set of parameters
 
+Globals:
+  globally available functions
+  
 Mappings:
   set of mappings
 
