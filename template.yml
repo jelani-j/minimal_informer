@@ -1,0 +1,18 @@
+---
+AWSTemplateFormatVersion: 1.0
+
+
+Parameters:
+  set of parameters
+
+Mappings:
+  set of mappings
+
+Conditions:
+  set of conditions
+
+Resources:
+  set of resources
+
+Outputs:
+  set of outputs
