@@ -1,9 +1,13 @@
 ---
-AWSTemplateFormatVersion: 1.0
-
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
 
 Parameters:
-  set of parameters
+  TableName:
+    Description: Name for DynamoDb Table
+    Type: String
+    Default: news-data
+
 
 Mappings:
   set of mappings
@@ -12,7 +16,14 @@ Conditions:
   set of conditions
 
 Resources:
-  set of resources
+  news-table:
+    Type: AWS::DynamoDB:Table
+    Properties: 
+      TableName: !Ref TableName
+  
+  NewsFetchMachineRole:
+    Type: AWS::IAM::Role
+    Properties:
 
 Outputs:
   set of outputs
