@@ -9,6 +9,9 @@ Parameters:
     Default: news-data
 
 
+Globals:
+  globally available functions
+  
 Mappings:
   set of mappings
 
