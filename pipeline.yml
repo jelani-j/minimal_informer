@@ -104,7 +104,6 @@ Resources:
               OutputArtifacts:
                 - Name: BuildOutput
               RunOrder: 1
-
         - Name: Deploy
           Actions:
             - Name: DeployAction
