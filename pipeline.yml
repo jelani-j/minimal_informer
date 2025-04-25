@@ -116,7 +116,7 @@ Resources:
               Configuration:
                 ActionMode: CREATE_UPDATE
                 StackName: MyAppStack
-                RoleArn: arn:aws:iam::203662895152:role/code-pipeline-roletest
+                RoleArn: "arn:aws:iam::203662895152:role/code-pipeline-role"
                 TemplatePath: BuildOutput::output.yml
                 Capabilities: CAPABILITY_NAMED_IAM
               InputArtifacts:
