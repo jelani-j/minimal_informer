@@ -84,7 +84,7 @@ Resources:
               Configuration:
                 ConnectionArn: arn:aws:codeconnections:us-east-2:203662895152:connection/d0f
                 FullRepositoryId: jelani-j/minimal_informer
-                Branch: develop
+                BranchName: develop
                 Output artifact format: your-oauth-token
               OutputArtifacts:
                 - Name: SourceOutput
