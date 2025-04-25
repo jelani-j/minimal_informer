@@ -84,7 +84,7 @@ Resources:
               Configuration:
                 ConnectionArn: arn:aws:codeconnections:us-east-1:203662895152:connection/ccf925c7-0a36-4bfb-96ba-34133b2fe741
                 FullRepositoryId: jelani-j/minimal_informer
-                BranchName: Develop
+                BranchName: develop
                 OutputArtifactFormat: CODE_ZIP
               OutputArtifacts:
                 - Name: SourceOutput
