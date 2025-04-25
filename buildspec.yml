@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo Installing cfn-lint...
+      - pip install cfn-lint
+      - echo Installing Node.js dependencies...
+      - npm install
+
+  build:
+    commands:
+      - echo Linting CloudFormation template...
+      - cfn-lint template.yml
+      - echo Build phase complete
+
+artifacts:
+  base-directory: website_layout
+  files:
+    - '**/*'
+  base-directory: images
+  files:
+    - '**/**'

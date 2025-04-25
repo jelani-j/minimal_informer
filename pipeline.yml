@@ -1,0 +1,123 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+
+  CodeBuildServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: code-build-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: CodeBuildAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:GetBucketLocation
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - cloudformation:ValidateTemplate
+                Resource: "*"
+
+  CodePipelineArtifactBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: myproject-codepipeline-artifacts
+      VersioningConfiguration:
+        Status: Enabled
+
+  GitHubConnection:
+      Type: AWS::CodeStarConnections::Connection
+      Properties:
+        ConnectionName: MyGitHubConnection
+        ProviderType: GitHub
+        Tags:
+          - Key: Project
+            Value: MyProject
+
+  CodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: StaticSiteBuild
+      Source:
+        Type: CODEPIPELINE
+      Artifacts:
+        Type: CODEPIPELINE
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:7.0
+        Type: LINUX_CONTAINER
+        EnvironmentVariables:
+          - Name: NODE_ENV
+            Value: production
+      ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+
+  Pipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      RoleArn: arn:aws:iam::203662895152:role/code-pipeline-role
+      ArtifactStore:
+        Type: S3
+        Location: !Ref CodePipelineArtifactBucket
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: SourceAction
+              ActionTypeId:
+                Category: Source
+                Owner: AWS
+                Provider: CodeStarSourceConnection
+                Version: 1
+              Configuration:
+                ConnectionArn: arn:aws:codeconnections:us-east-2:203662895152:connection/d0f
+                FullRepositoryId: jelani-j/minimal_informer
+                Branch: develop
+                Output artifact format: your-oauth-token
+              OutputArtifacts:
+                - Name: SourceOutput
+              RunOrder: 1
+        - Name: Build
+          Actions:
+            - Name: BuildAction
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: 1
+              Configuration:
+                ProjectName: minimal_informer_build
+              InputArtifacts:
+                - Name: SourceOutput
+              OutputArtifacts:
+                - Name: BuildOutput
+              RunOrder: 1
+
+        - Name: Deploy
+          Actions:
+            - Name: DeployAction
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: 1
+              Configuration:
+                ActionMode: CREATE_UPDATE
+                StackName: MyAppStack
+                TemplatePath: BuildOutput::output.yml
+                Capabilities: CAPABILITY_NAMED_IAM
+              InputArtifacts:
+                - Name: BuildOutput
+              RunOrder: 1
