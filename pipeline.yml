@@ -2,6 +2,33 @@ AWSTemplateFormatVersion: '2010-09-09'
 
 Resources:
 
+  CloudFormationExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: cloudformation-execution-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: cloudformation.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: CloudFormationDeployPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - iam:*
+                  - s3:*
+                  - lambda:*
+                  - cloudwatch:*
+                  - logs:*
+                  - apigateway:*
+                  # add any others your template uses
+                Resource: "*"
+
   CodeBuildServiceRole:
     Type: AWS::IAM::Role
     Properties:
@@ -104,21 +131,21 @@ Resources:
               OutputArtifacts:
                 - Name: BuildOutput
               RunOrder: 1
-        # - Name: Deploy
-        #   Actions:
-        #     - Name: DeployAction
-        #       ActionTypeId:
-        #         Category: Deploy
-        #         Owner: AWS
-        #         Provider: CloudFormation
-        #         Version: 1
-              # Configuration:
-              #   ActionMode: CREATE_UPDATE
-              #   StackName: MyAppStack
-              #   RoleArn: "arn:aws:iam::203662895152:role/code-pipeline-role"
-              #   TemplatePath: BuildOutput::output.yml
-              #   Capabilities: CAPABILITY_NAMED_IAM
-              # InputArtifacts:
-              #   - Name: BuildOutput
-              # RunOrder: 1
+        - Name: Deploy
+          Actions:
+            - Name: DeployAction
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: 1
+              Configuration:
+                ActionMode: CREATE_UPDATE
+                StackName: MyAppStack
+                RoleArn: "arn:aws:iam::203662895152:role/cloudformation-execution-role"
+                TemplatePath: BuildOutput::output.yml
+                Capabilities: CAPABILITY_NAMED_IAM
+              InputArtifacts:
+                - Name: BuildOutput
+              RunOrder: 1
 #aws cloudformation deploy  --template-file pipeline.yml --stack-name minimal-informer-pipeline  --capabilities CAPABILITY_NAMED_IAM
