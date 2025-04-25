@@ -17,5 +17,6 @@ phases:
       - echo Build phase complete
 
 artifacts:
+  files:
     - website_layout/**/* 
     - images/**/*
