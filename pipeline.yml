@@ -35,7 +35,7 @@ Resources:
   CodePipelineArtifactBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: myproject-codepipeline-artifacts
+      BucketName: !Sub "minimal-informer-codepipeline-artifacts-${AWS::AccountId}-${AWS::Region}"
       VersioningConfiguration:
         Status: Enabled
 
