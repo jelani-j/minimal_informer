@@ -85,7 +85,7 @@ Resources:
                 ConnectionArn: arn:aws:codeconnections:us-east-2:203662895152:connection/d0f
                 FullRepositoryId: jelani-j/minimal_informer
                 BranchName: develop
-                OutputArtifactFormat: your-oauth-token
+                OutputArtifactFormat: CODE_ZIP
               OutputArtifacts:
                 - Name: SourceOutput
               RunOrder: 1
@@ -121,3 +121,5 @@ Resources:
               InputArtifacts:
                 - Name: BuildOutput
               RunOrder: 1
+
+#aws cloudformation deploy  --template-file pipeline.yml --stack-name minimal-informer-pipeline  --capabilities CAPABILITY_NAMED_IAM
