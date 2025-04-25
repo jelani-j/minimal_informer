@@ -113,9 +113,9 @@ Resources:
                 Provider: CloudFormation
                 Version: 1
               Configuration:
-                ActionMode: CREATE_UPDATE
+                ActionMode: CHANGE_SET_REPLACE
                 StackName: MyAppStack
-                RoleArn: "arn:aws:iam::203662895152:role/code-pipeline-role"
+                #RoleArn: "arn:aws:iam::203662895152:role/code-pipeline-role"
                 TemplatePath: BuildOutput::output.yml
                 Capabilities: CAPABILITY_NAMED_IAM
               InputArtifacts:
