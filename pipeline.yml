@@ -51,7 +51,7 @@ Resources:
   CodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
-      Name: StaticSiteBuild
+      Name: minimal_informer_build
       Source:
         Type: CODEPIPELINE
       Artifacts:
