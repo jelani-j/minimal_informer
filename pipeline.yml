@@ -2,6 +2,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 
 Resources:
 
+  # for cloudformation deploy role
   CloudFormationExecutionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -28,7 +29,7 @@ Resources:
                   - apigateway:*
                   # add any others your template uses
                 Resource: "*"
-
+  # for code build
   CodeBuildServiceRole:
     Type: AWS::IAM::Role
     Properties:
@@ -58,14 +59,14 @@ Resources:
                 Action:
                   - cloudformation:ValidateTemplate
                 Resource: "*"
-
+  # create S3 bucket 
   CodePipelineArtifactBucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub "minimal-informer-codepipeline-artifacts-${AWS::AccountId}-${AWS::Region}"
       VersioningConfiguration:
         Status: Enabled
-
+  # create github connection
   GitHubConnection:
       Type: AWS::CodeStarConnections::Connection
       Properties:
@@ -74,7 +75,7 @@ Resources:
         Tags:
           - Key: Project
             Value: MyProject
-
+  #Build Project Creation 
   CodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
