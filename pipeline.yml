@@ -82,7 +82,7 @@ Resources:
                 Provider: CodeStarSourceConnection
                 Version: 1
               Configuration:
-                ConnectionArn: arn:aws:codeconnections:us-east-2:203662895152:connection/d0f
+                ConnectionArn: arn:aws:codeconnections:us-east-2:203662895152:connection/d0f6f4f0-1eb1-42ae-b9b5-fd34c06598fb
                 FullRepositoryId: jelani-j/minimal_informer
                 BranchName: develop
                 OutputArtifactFormat: CODE_ZIP
