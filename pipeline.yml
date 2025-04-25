@@ -104,22 +104,21 @@ Resources:
               OutputArtifacts:
                 - Name: BuildOutput
               RunOrder: 1
-        - Name: Deploy
-          Actions:
-            - Name: DeployAction
-              ActionTypeId:
-                Category: Deploy
-                Owner: AWS
-                Provider: CloudFormation
-                Version: 1
+        # - Name: Deploy
+        #   Actions:
+        #     - Name: DeployAction
+        #       ActionTypeId:
+        #         Category: Deploy
+        #         Owner: AWS
+        #         Provider: CloudFormation
+        #         Version: 1
               # Configuration:
               #   ActionMode: CREATE_UPDATE
               #   StackName: MyAppStack
               #   RoleArn: "arn:aws:iam::203662895152:role/code-pipeline-role"
               #   TemplatePath: BuildOutput::output.yml
               #   Capabilities: CAPABILITY_NAMED_IAM
-              InputArtifacts:
-                - Name: BuildOutput
-              RunOrder: 1
-
+              # InputArtifacts:
+              #   - Name: BuildOutput
+              # RunOrder: 1
 #aws cloudformation deploy  --template-file pipeline.yml --stack-name minimal-informer-pipeline  --capabilities CAPABILITY_NAMED_IAM
