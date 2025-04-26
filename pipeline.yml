@@ -29,6 +29,12 @@ Resources:
                   - cloudwatch:*
                   - logs:*
                   - apigateway:*
+                  - iam:*
+                  - cloudformation:DescribeStacks
+                  - cloudformation:UpdateStack
+                  - cloudformation:CreateChangeSet
+                  - cloudformation:ExecuteChangeSet
+                  - iam:PassRole
                   # add any others your template uses
                 Resource: "*"
   # for code build
