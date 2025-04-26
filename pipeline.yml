@@ -22,6 +22,8 @@ Resources:
               - Effect: Allow
                 Action:
                   - iam:*
+                  - cloudformation:CreateStack
+                  - cloudformation:UpdateStack
                   - s3:*
                   - lambda:*
                   - cloudwatch:*
