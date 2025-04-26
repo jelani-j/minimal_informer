@@ -14,9 +14,11 @@ phases:
     commands:
       - echo Linting CloudFormation template...
       - cfn-lint template.yml
+      - cp template.yml output.yml
       - echo Build phase complete
 
 artifacts:
   files:
     - website_layout/**/* 
     - images/**/*
+    - output.yml
