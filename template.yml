@@ -8,6 +8,7 @@ Parameters:
     Type: String
     Default: news-data
 
+
 Resources:
   NewsTable:
     Type: AWS::DynamoDB::Table
@@ -23,7 +24,7 @@ Resources:
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
 
-  
+  # Role Creation
   NewsFetchMachineRole:
     Type: AWS::IAM::Role
     Properties:
@@ -46,6 +47,78 @@ Resources:
                   - dynamodb:UpdateItem
                   - dynamodb:DeleteItem
                 Resource: "*"
+
+  StateMachineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement: 
+          - Effect: Allow
+            Principal:
+              Service: states.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName:  StateMachineLambdaInvoke
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow 
+                Action:
+                  - lambda:InvokeFunction
+                Resource: "*"
+  # Lambda Function Definition
+  WorldNewsFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: BasicLambdaExecution
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+
+  WorldNewsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: WorldNewsFunction
+      Handler: functions/fetchNews.handler
+      Runtime: nodejs18.x
+      CodeUri: .
+      Role: !GetAtt WorldNewsFunctionRole.Arn
+      MemorySize: 128
+      Timeout: 5
+
+  # State machine definition
+  MyStateMachine:
+    Type: "AWS::StepFunctions::StateMachine"
+    Properties:
+      RoleArn: !GetAtt StateMachineRole.Arn
+      DefinitionString:
+        Fn::Sub: |
+            {
+              "Comment": "State machine to fetch news",
+              "StartAt": "FetchNews",
+              "States": {
+                "FetchNews": {
+                  "Type": "Task",
+                  "Resource": "${WorldNewsFunction.Arn}",
+                  "End": true
+                }
+              }
+            }
 
 # Outputs:
 #   set of outputs
