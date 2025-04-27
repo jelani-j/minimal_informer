@@ -118,7 +118,9 @@ Resources:
       Handler: functions/world-news.handler
       Runtime: nodejs18.x
       Role: !GetAtt WorldNewsFunctionRole.Arn
-      CodeUri: ./functions
+      CodeUri:
+        Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
+        Key: "functions/world-news.js"
       MemorySize: 128
       Timeout: 5
       Layers:

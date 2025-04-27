@@ -27,6 +27,8 @@ phases:
       - zip -r node_modules.zip node_modules/
       - echo Pushing zip file to bucket
       - aws s3 cp node_modules.zip s3://$BUCKET_NAME/node_modules.zip
+      - echo Updating Functions folder 
+      - aws s3 cp ./functions s3://$BUCKET_NAME/StaticWebsite/ --recursive
 
 artifacts:
   name: BuildOutput
