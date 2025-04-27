@@ -97,6 +97,7 @@ Resources:
                   - logs:CreateLogGroup
                   - logs:CreateLogStream
                   - logs:PutLogEvents
+                  - s3:GetObject
                 Resource: "*"
 
   WorldNewsFunction:
@@ -107,7 +108,7 @@ Resources:
       Runtime: nodejs18.x
       CodeUri: 
         Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
-        Key: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}/${LambdaCodeKey}"
+        Key: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}/node_modules.zip"
       Role: !GetAtt WorldNewsFunctionRole.Arn
       MemorySize: 128
       Timeout: 5
