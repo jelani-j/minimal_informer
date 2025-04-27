@@ -20,9 +20,10 @@ phases:
       - zip -r lambda-function.zip .
 
 artifacts:
+  name: BuildOutput
   files:
     - output.yml  # or just pick any small file
-  scard-paths: yes
+  discard-paths: yes
   secondary-artifacts:
     StaticSite:
       files:
