@@ -20,15 +20,12 @@ phases:
       - zip -r lambda-function.zip .
 
 artifacts:
+  # Primary Artifact: BuildOutput
   name: BuildOutput
   files:
-    - output.yml
-    - lambda-function.zip 
-  discard-paths: yes
-  secondary-artifacts:
-    StaticSite:
-      files:
-        - website_layout/**/* 
-        - images/**/*
-        - index.html
-      discard-paths: no  # Keep folders for static hosted site
+    - output.yml  # Add any small file here that should be part of BuildOutput
+    - lambda-function.zip  # Lambda zip file containing function code
+    - website_layout/**/*  # Static website layout files
+    - images/**/*  # Static image files
+    - index.html  # Main HTML file
+  discard-paths: no  # Keep directory structure intact (for static site)
