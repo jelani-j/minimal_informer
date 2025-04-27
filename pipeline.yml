@@ -37,6 +37,7 @@ Resources:
                   - iam:PassRole
                   - states:*
                   - dynamodb:*
+                  - lambda:*
                   # add any others your template uses
                 Resource: "*"
   # for code build
