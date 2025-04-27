@@ -120,6 +120,8 @@ Resources:
       Role: !GetAtt WorldNewsFunctionRole.Arn
       MemorySize: 128
       Timeout: 5
+      Layers:
+        - !Ref NodeModulesLayer  # Referencing the Lambda Layer
       Environment:
         Variables:
           BUCKET_NAME: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
