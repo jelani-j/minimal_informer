@@ -23,10 +23,14 @@ phases:
       - BUCKET_NAME="minimal-informer-codepipeline-artifacts-${ACCOUNT_ID}-${AWS_REGION}"
       - echo Uploading 'init' folder to $BUCKET_NAME...
       - aws s3 cp ./website_layout s3://$BUCKET_NAME/StaticWebsite/ --recursive
+      - echo Zipping npm install for lambda dependencies
+      - zip -r node_modules.zip node_modules/
+      - echo Pushing zip file to bucket
+      - aws s3 cp node_modules.zip s3://$BUCKET_NAME/node_modules.zip
 
 artifacts:
   name: BuildOutput
   files:
     - output.yml  
-    - LambdaFunction.zip
+    - node_modules.zip
   discard-paths: yes
