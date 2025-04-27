@@ -22,7 +22,8 @@ phases:
 artifacts:
   name: BuildOutput
   files:
-    - output.yml  # or just pick any small file
+    - output.yml
+    - lambda-function.zip 
   discard-paths: yes
   secondary-artifacts:
     StaticSite:
@@ -31,7 +32,3 @@ artifacts:
         - images/**/*
         - index.html
       discard-paths: no  # Keep folders for static hosted site
-    LambdaZip:
-      files:
-        - lambda-function.zip
-      discard-paths: yes  # Stops from unziping the file 
