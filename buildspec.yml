@@ -19,14 +19,6 @@ phases:
       - echo Zipping file for lambda function
       - zip -r lambda-function.zip node_modules
 
-  post_build:
-    commands:
-      - echo Uploading zipped file to S3...
-      - |
-        BUCKET_NAME="minimal-informer-codepipeline-artifacts-${AWS_ACCOUNT_ID}-${AWS_REGION}"
-        aws s3 cp lambda-function.zip s3://$BUCKET_NAME/path/to/destination/
-
-
 artifacts:
   # Primary Artifact: BuildOutput
   name: BuildOutput
