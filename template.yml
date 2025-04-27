@@ -107,8 +107,8 @@ Resources:
       Handler: functions/world-news.handler
       Runtime: nodejs18.x
       CodeUri: 
-        Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
-        Key: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}/node_modules.zip"
+        Bucket: s3://minimal-informer-codepipeline-artifacts-203662895152-us-east-2
+        Key: s3://minimal-informer-codepipeline-artifacts-203662895152-us-east-2/node_modules.zip
       Role: !GetAtt WorldNewsFunctionRole.Arn
       MemorySize: 128
       Timeout: 5
