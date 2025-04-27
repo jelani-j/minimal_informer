@@ -18,13 +18,16 @@ phases:
       - echo Build phase complete
       - echo Zipping file for lambda function
       - zip -r lambda-function.zip .
-      - echo Showing proof of zip file
-      - ls -alh
-
 
 artifacts:
-  files:
-    - website_layout/**/* 
-    - images/**/*
-    - output.yml
-    - lambda-function.zip
+  secondary-artifacts:
+    StaticSite:
+      files:
+        - website_layout/**/* 
+        - images/**/*
+        - output.yml
+      discard-paths: no  # Keep folders for static hosted site
+    LambdaZip:
+      files:
+        - lambda-function.zip
+      discard-paths: yes  # Stops from unziping the file 
