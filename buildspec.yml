@@ -30,11 +30,12 @@ phases:
       - echo Creating functions zip folder 
       - zip -r lambdafunctions.zip functions/
       - echo Updating Functions folder 
-      - aws s3 cp lambdafunctions.zip s3://$BUCKET_NAME/StaticWebsite/ --recursive
+      - aws s3 cp lambdafunctions.zip s3://$BUCKET_NAME/lambdafunctions.zip
 
 artifacts:
   name: BuildOutput
   files:
     - output.yml  
     - node_modules.zip
+    - lambdafunctions.zip
   discard-paths: yes
