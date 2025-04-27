@@ -16,8 +16,9 @@ phases:
       - cfn-lint template.yml
       - cp template.yml output.yml
       - echo Build phase complete
-      - zip -r lambda-function.zip .
       - echo Zipping file for lambda function
+      - ls -alh
+      - zip -r lambda-function.zip .
 
 artifacts:
   files:
