@@ -120,7 +120,7 @@ Resources:
       Role: !GetAtt WorldNewsFunctionRole.Arn
       CodeUri:
         Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
-        Key: "functions/world-news.js"
+        Key: lambdafunctions.zip
       MemorySize: 128
       Timeout: 5
       Layers:
