@@ -21,6 +21,7 @@ phases:
       - echo Setting S3 bucket name...
       - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
       - BUCKET_NAME="minimal-informer-codepipeline-artifacts-${ACCOUNT_ID}-${REGION}"
+      - echo the bucket name is:"$BucketName"
       - echo Uploading 'init' folder to $BUCKET_NAME...
       - aws s3 cp ./website_layout s3://$BUCKET_NAME/lambda-dependencies/ --recursive
 
