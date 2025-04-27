@@ -140,6 +140,7 @@ Resources:
                 - Name: SourceOutput
               OutputArtifacts:
                 - Name: BuildOutput
+                - Name: lambda-function.zip
               RunOrder: 1
         - Name: Deploy
           Actions:

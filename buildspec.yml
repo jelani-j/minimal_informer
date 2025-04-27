@@ -33,7 +33,4 @@ artifacts:
   files:
     - output.yml  
     - lambda-function.zip  # Lambda zip file containing function code
-    - website_layout/**/*  # Static website layout files
-    - images/**/*  # Static image files
-    - index.html  # Main HTML file
-  discard-paths: no  # Keep directory structure intact (for static site)
+  discard-paths: yes 
