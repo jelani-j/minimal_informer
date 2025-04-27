@@ -17,8 +17,10 @@ phases:
       - cp template.yml output.yml
       - echo Build phase complete
       - echo Zipping file for lambda function
-      - ls -alh
       - zip -r lambda-function.zip .
+      - echo Showing proof of zip file
+      - ls -alh
+
 
 artifacts:
   files:
