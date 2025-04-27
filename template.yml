@@ -7,7 +7,16 @@ Parameters:
     Description: Name for DynamoDb Table
     Type: String
     Default: news-data
+  
+  BucketPrefix:
+    Description: Name of S3 Bucket 
+    Type: String
+    Default: minimal-informer-codepipeline-artifacts
 
+  # LambdaCodeKey:
+  #   Type: String
+  #   Description: Path to the ZIP file inside the bucket
+  #   Default: 
 
 Resources:
   NewsTable:
@@ -90,35 +99,37 @@ Resources:
                   - logs:PutLogEvents
                 Resource: "*"
 
-  WorldNewsFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: WorldNewsFunction
-      Handler: functions/fetchNews.handler
-      Runtime: nodejs18.x
-      CodeUri: .
-      Role: !GetAtt WorldNewsFunctionRole.Arn
-      MemorySize: 128
-      Timeout: 5
+  # WorldNewsFunction:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     FunctionName: WorldNewsFunction
+  #     Handler: functions/fetchNews.handler
+  #     Runtime: nodejs18.x
+  #     CodeUri: 
+  #       Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
+  #       Key:
+  #     Role: !GetAtt WorldNewsFunctionRole.Arn
+  #     MemorySize: 128
+  #     Timeout: 5
 
-  # State machine definition
-  MyStateMachine:
-    Type: "AWS::StepFunctions::StateMachine"
-    Properties:
-      RoleArn: !GetAtt StateMachineRole.Arn
-      DefinitionString:
-        Fn::Sub: |
-            {
-              "Comment": "State machine to fetch news",
-              "StartAt": "FetchNews",
-              "States": {
-                "FetchNews": {
-                  "Type": "Task",
-                  "Resource": "${WorldNewsFunction.Arn}",
-                  "End": true
-                }
-              }
-            }
+  # # State machine definition
+  # MyStateMachine:
+  #   Type: "AWS::StepFunctions::StateMachine"
+  #   Properties:
+  #     RoleArn: !GetAtt StateMachineRole.Arn
+  #     DefinitionString:
+  #       Fn::Sub: |
+  #           {
+  #             "Comment": "State machine to fetch news",
+  #             "StartAt": "FetchNews",
+  #             "States": {
+  #               "FetchNews": {
+  #                 "Type": "Task",
+  #                 "Resource": "${WorldNewsFunction.Arn}",
+  #                 "End": true
+  #               }
+  #             }
+  #           }
 
 # Outputs:
 #   set of outputs
