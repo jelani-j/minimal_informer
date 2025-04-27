@@ -20,6 +20,7 @@ phases:
       - zip -r lambda-function.zip .
 
 artifacts:
+  name: BuildOutput
   files:
     - output.yml  # or just pick any small file
   discard-paths: yes
