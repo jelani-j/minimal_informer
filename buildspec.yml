@@ -20,12 +20,16 @@ phases:
       - zip -r lambda-function.zip .
 
 artifacts:
+  files:
+    - package.json  # or just pick any small file
+  scard-paths: yes
   secondary-artifacts:
     StaticSite:
       files:
         - website_layout/**/* 
         - images/**/*
         - output.yml
+        - index.html
       discard-paths: no  # Keep folders for static hosted site
     LambdaZip:
       files:
