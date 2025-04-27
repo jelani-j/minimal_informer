@@ -17,12 +17,17 @@ phases:
       - cp template.yml output.yml
       - echo Build phase complete
       - echo Zipping file for lambda function
-      - zip -r lambda-function.zip node_modules
+      - zip -r LambdaFunction.zip node_modules
+      - echo Setting S3 bucket name...
+      - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+      - REGION=$(aws configure get region)
+      - BUCKET_NAME="minimal-informer-codepipeline-artifacts-${ACCOUNT_ID}-${REGION}"
+      - echo Uploading 'init' folder to $BUCKET_NAME...
+      - aws s3 cp ./init s3://$BUCKET_NAME/lambda-dependencies/ --recursive
 
 artifacts:
-  # Primary Artifact: BuildOutput
   name: BuildOutput
   files:
     - output.yml  
-    - lambda-function.zip  # Lambda zip file containing function code
-  discard-paths: yes 
+    - LambdaFunction.zip
+  discard-paths: yes
