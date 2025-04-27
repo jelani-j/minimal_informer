@@ -140,6 +140,8 @@ Resources:
                 - Name: SourceOutput
               OutputArtifacts:
                 - Name: BuildOutput
+                - Name: StaticSite   
+                - Name: LambdaZip
               RunOrder: 1
         - Name: Deploy
           Actions:
