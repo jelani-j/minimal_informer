@@ -108,7 +108,7 @@ Resources:
       Runtime: nodejs18.x
       CodeUri: 
         Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
-        Key: "node_modules.zip"
+        Key: !Sub "${LambdaCodeKey}"
       Role: !GetAtt WorldNewsFunctionRole.Arn
       MemorySize: 128
       Timeout: 5

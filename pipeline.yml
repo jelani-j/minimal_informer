@@ -35,6 +35,7 @@ Resources:
                   - cloudformation:CreateChangeSet
                   - cloudformation:ExecuteChangeSet
                   - iam:PassRole
+                  - states:*
                   - dynamodb:*
                   # add any others your template uses
                 Resource: "*"
