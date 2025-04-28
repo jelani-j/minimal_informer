@@ -112,15 +112,15 @@ Resources:
 
   #Function Creation
   WorldNewsFunction:
-    Type: AWS::Serverless::Function
+    Type: AWS::Lambda::Function
     Properties:
       FunctionName: WorldNewsFunction
       Handler: functions/world-news.handler
       Runtime: nodejs18.x
       Role: !GetAtt WorldNewsFunctionRole.Arn
-      CodeUri:
-        Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
-        Key: lambdafunctions.zip
+      Code:
+        S3Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
+        S3Key: lambdafunctions.zip
       MemorySize: 128
       Timeout: 5
       Layers:
