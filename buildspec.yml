@@ -32,7 +32,7 @@ phases:
       - echo Updating Functions folder 
       - aws s3 cp lambdafunctions.zip s3://$BUCKET_NAME/lambdafunctions.zip
       - echo Deploying new changes
-      - aws cloudformation deploy --template-file output.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND
+      - aws cloudformation deploy --template-file output.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND
 
 artifacts:
   name: BuildOutput
