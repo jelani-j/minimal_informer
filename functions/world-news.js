@@ -78,6 +78,7 @@ exports.handler = async (event) => {
   // this is a test to see if you can see me or not
   // lets see if this one works!
   //final test, last push was successful if all else fail then go back
+  // ok and lets see if the default value gets overwritten
   return {
       statusCode: 200,
       body: JSON.stringify('Hello from Lambda!'),
