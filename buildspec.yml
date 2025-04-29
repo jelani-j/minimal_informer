@@ -21,12 +21,12 @@ phases:
       - echo Setting S3 bucket name...
       - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
       - BUCKET_NAME="minimal-informer-codepipeline-artifacts-${ACCOUNT_ID}-${AWS_REGION}"
-      - echo Uploading 'init' folder to $BUCKET_NAME...
-      - aws s3 cp ./website_layout s3://$BUCKET_NAME/StaticWebsite/ --recursive
-      - echo Zipping npm install for lambda dependencies
-      - zip -r node_modules.zip node_modules/
-      - echo Pushing zip file to bucket
-      - aws s3 cp node_modules.zip s3://$BUCKET_NAME/node_modules.zip
+      # - echo Uploading 'init' folder to $BUCKET_NAME...
+      # - aws s3 cp ./website_layout s3://$BUCKET_NAME/StaticWebsite/ --recursive
+      # - echo Zipping npm install for lambda dependencies
+      # - zip -r node_modules.zip node_modules/
+      # - echo Pushing zip file to bucket
+      # - aws s3 cp node_modules.zip s3://$BUCKET_NAME/node_modules.zip
       - echo Creating functions zip folder 
       - zip -r lambdafunctions.zip functions/
       - echo Updating Functions folder 
