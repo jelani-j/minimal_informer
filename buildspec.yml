@@ -32,11 +32,11 @@ phases:
       - echo Updating Functions folder 
       # - aws s3 cp lambdafunctions.zip s3://$BUCKET_NAME/lambdafunctions.zip
       - echo Deploying new changes
-      #- aws cloudformation deploy --template-file output.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND
+      - aws cloudformation deploy --template-file template.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND
       - echo grabbing version of lambda file to update code in aws 
-      - VERSION_ID=$(aws s3api put-object --bucket "$BUCKET_NAME" --key lambdafunctions.zip --body lambdafunctions.zip --query 'VersionId' --output text)
-      - echo S3 Version ID $VERSION_ID
-      - aws cloudformation deploy --template-file template.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND --parameter-overrides LambdaCodeVersion="$VERSION_ID"
+      # - VERSION_ID=$(aws s3api put-object --bucket "$BUCKET_NAME" --key lambdafunctions.zip --body lambdafunctions.zip --query 'VersionId' --output text)
+      # - echo S3 Version ID $VERSION_ID
+      # - aws cloudformation deploy --template-file template.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND --parameter-overrides LambdaCodeVersion="$VERSION_ID"
 
 artifacts:
   name: BuildOutput
