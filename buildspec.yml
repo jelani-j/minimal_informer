@@ -8,7 +8,7 @@ phases:
       - echo Installing cfn-lint...
       - pip install cfn-lint
       - echo Installing Node.js dependencies...
-      - npm install
+      #- npm install
 
   build:
     commands:
@@ -36,7 +36,7 @@ phases:
       - echo grabbing version of lambda file to update code in aws 
       - VERSION_ID=$(aws s3api put-object --bucket "$BUCKET_NAME" --key lambdafunctions.zip --body lambdafunctions.zip --query 'VersionId' --output text)
       - echo S3 Version ID $VERSION_ID
-      - aws cloudformation deploy --template-file template.yaml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND --parameter-overrides LambdaCodeVersion="$VERSION_ID"
+      - aws cloudformation deploy --template-file template.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND --parameter-overrides LambdaCodeVersion="$VERSION_ID"
 
 artifacts:
   name: BuildOutput
