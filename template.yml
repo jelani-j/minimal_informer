@@ -17,6 +17,11 @@ Parameters:
     Type: String
     Description: Path to the ZIP file inside the bucket
     Default: node_modules.zip
+  
+  LambdaCodeVersion:
+    Type: String
+    Description: Version of the lambda.zip file to keep code in aws up to date
+    Default: 
 
 Resources:
   NewsTable:
@@ -121,6 +126,7 @@ Resources:
       Code:
         S3Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
         S3Key: lambdafunctions.zip
+        S3ObjectVersion: !Ref LambdaCodeVersion
       MemorySize: 128
       Timeout: 5
       Layers:
