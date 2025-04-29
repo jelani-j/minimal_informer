@@ -21,7 +21,7 @@ Parameters:
   LambdaCodeVersion:
     Type: String
     Description: Version of the lambda.zip file to keep code in aws up to date built via buildspec
-    Default: g0hqqQXBcZ46C4cpn8tIz_AqGDQDhW.F
+    Default: value gets overwritten in build
 
 Resources:
   NewsTable:
