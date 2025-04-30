@@ -127,7 +127,7 @@ Resources:
       Code:
         S3Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
         S3Key: lambdafunctions.zip
-        S3ObjectVersion:  !Sub '{{resolve:ssm:/MyApp/LambdaVersion}}'
+        S3ObjectVersion: '{{resolve:ssm:/MyApp/LambdaVersion}}'
       MemorySize: 128
       Timeout: 5
       Layers:
