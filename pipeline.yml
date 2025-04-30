@@ -157,6 +157,10 @@ Resources:
                 StackName: MyAppStack
                 RoleArn: "arn:aws:iam::203662895152:role/cloudformation-execution-role"
                 TemplatePath: BuildOutput::output.yml
+                ParameterOverrides: |
+                  {
+                    "LambdaCodeVersion": "#{BuildOutput.LambdaCodeVersion}"
+                  }
                 Capabilities: CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND
               InputArtifacts:
                 - Name: BuildOutput
