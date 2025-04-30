@@ -33,7 +33,7 @@ phases:
       # - aws s3 cp lambdafunctions.zip s3://$BUCKET_NAME/lambdafunctions.zip
       - echo Deploying new changes
       # - aws cloudformation deploy --template-file template.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND
-      - echo grabbing version of lambda file & storing it in parameter store
+      - echo storing version of s3 in paramater
       - VERSION_ID=$(aws s3api list-object-versions --bucket $BUCKET_NAME --prefix lambdafunctions.zip | jq -r '.Versions[0].VersionId')
       - aws ssm put-parameter --name "/MyApp/LambdaVersion" --value "$VERSION_ID" --type String --overwrite
       #- aws cloudformation deploy --template-file template.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND --parameter-overrides LambdaCodeVersion="$VERSION_ID"
