@@ -17,7 +17,6 @@ phases:
       - cp template.yml output.yml
       - echo Build phase complete
       # - echo Zipping file for lambda function
-      # - zip -r LambdaFunction.zip node_modules
       - echo Setting S3 bucket name...
       - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
       - BUCKET_NAME="minimal-informer-codepipeline-artifacts-${ACCOUNT_ID}-${AWS_REGION}"
@@ -30,7 +29,7 @@ phases:
       - echo Creating functions zip folder 
       - zip -r lambdafunctions.zip functions/
       - echo Updating Functions folder 
-      # - aws s3 cp lambdafunctions.zip s3://$BUCKET_NAME/lambdafunctions.zip
+      - aws s3 cp lambdafunctions.zip s3://$BUCKET_NAME/lambdafunctions.zip
       - echo Deploying new changes
       # - aws cloudformation deploy --template-file template.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND
       - echo storing version of s3 in paramater
