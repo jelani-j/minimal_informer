@@ -21,7 +21,7 @@ Parameters:
   LambdaCodeVersion:
     Type: String
     Description: Version of the lambda.zip file to keep code in aws up to date built via buildspec
-    Default: value gets overwritten in build
+    Default: '{{resolve:ssm:/MyApp/LambdaVersion}}'
 
 Resources:
   NewsTable:
@@ -126,7 +126,7 @@ Resources:
       Code:
         S3Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
         S3Key: lambdafunctions.zip
-        # S3ObjectVersion: !Ref LambdaCodeVersion
+        S3ObjectVersion: !Ref LambdaCodeVersion
       MemorySize: 128
       Timeout: 5
       Layers:
