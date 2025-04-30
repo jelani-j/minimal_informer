@@ -1,3 +1,5 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Bootstrap stack to create SSM parameter for Lambda versioning
 
 Resources:
   LambdaVersionParameter:
