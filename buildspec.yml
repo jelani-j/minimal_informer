@@ -32,19 +32,19 @@ phases:
       - echo Updating Functions folder 
       # - aws s3 cp lambdafunctions.zip s3://$BUCKET_NAME/lambdafunctions.zip
       - echo Deploying new changes
+      - echo "Bootstrapping SSM parameters if needed..."
+      - aws cloudformation deploy --template-file bootstrap.yml --stack-name MyApp-Bootstrap --capabilities CAPABILITY_NAMED_IAM
       # - aws cloudformation deploy --template-file template.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND
       #- echo grabbing version of lambda file to update code in aws 
       #- VERSION_ID=$(aws s3api put-object --bucket "$BUCKET_NAME" --key lambdafunctions.zip --body lambdafunctions.zip --query 'VersionId' --output text)
       - VERSION_ID=$(aws s3api list-object-versions --bucket $BUCKET_NAME --prefix lambdafunctions.zip | jq -r '.Versions[0].VersionId')
-      - echo "VERSION_ID=$VERSION_ID" >> $CODEBUILD_SRC_DIR/env_vars.env
-      - echo S3 Version ID $VERSION_ID
+      - aws ssm put-parameter --name "/MyApp/LambdaVersion" --value "$VERSION_ID" --type String --overwrite
       #- aws cloudformation deploy --template-file template.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND --parameter-overrides LambdaCodeVersion="$VERSION_ID"
 
 artifacts:
   name: BuildOutput
   files:
     - output.yml
-    - env_vars.env
     - node_modules.zip
     - lambdafunctions.zip
   discard-paths: yes

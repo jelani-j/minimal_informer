@@ -1,0 +1,8 @@
+
+Resources:
+  LambdaVersionParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: /MyApp/LambdaVersion
+      Type: String
+      Value: "initial-placeholder"
