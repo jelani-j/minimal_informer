@@ -1,27 +1,18 @@
-import { STSClient, AssumeRoleCommand } from "@aws-sdk/client-sts";
-import { SSMClient, GetParameterCommand} from "@aws-sdk/client-ssm";
-import * as fs from 'fs';
-const arn = "arn:aws:iam::203662895152:role/java-sdk-role";
+const { STSClient, AssumeRoleCommand } = require("@aws-sdk/client-sts")
+const { SSMClient, GetParameterCommand} = require("@aws-sdk/client-ssm");
+const {dynamoDBClient, PutItemCommand} = require("@aws-sdk/client-dynamodb");
+
+//const arn = "arn:aws:iam::203662895152:role/java-sdk-role";
 const stsClient = new STSClient({ region: "us-east-2"});
-export const filePath = "api_data.json";
+const filePath = "api_data.json";
 
 
-export async function assume_role(){
-  const command = new AssumeRoleCommand({
-    RoleArn: arn,
-    RoleSessionName: "JellyDevTestSession"
-  });
+async function assume_role(){
   //assume proper role and establish ssm Client
   try{
-    const assumed_role = await stsClient.send(command);
     //Configure SSM Client with Assumed Role 
     const ssmClient = new SSMClient({
       region: "us-east-2",
-      credentials: {
-        accessKeyId: assumed_role.Credentials.AccessKeyId,
-        secretAccessKey: assumed_role.Credentials.SecretAccessKey,
-        sessionToken: assumed_role.Credentials.SessionToken
-      }
     });
     const getParameterCommand = new GetParameterCommand({
       Name: "gnews-api",
@@ -35,7 +26,7 @@ export async function assume_role(){
   }
 }
 
-export function writeArrayOfDictToJson(filePath, array) {
+function writeArrayOfDictToJson(filePath, array) {
   fs.readFile(filePath, 'utf8', (readErr, fileData) => {
     let existingData = {};
 
@@ -75,5 +66,10 @@ export function writeArrayOfDictToJson(filePath, array) {
       }
     });
   });
+}
+
+module.exports = {
+  assume_role,
+  filePath
 }
 
