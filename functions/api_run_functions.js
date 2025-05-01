@@ -27,8 +27,6 @@ async function assume_role(){
 }
 
 async function writeArrayToDynamoDB(primary_key, data) {
-  const AWS = require("aws-sdk");
-  const dynamo = new AWS.DynamoDB.DocumentClient();
   const categories = data;
 
   for (const category of categories) {
