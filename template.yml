@@ -104,6 +104,10 @@ Resources:
                   - logs:PutLogEvents
                   - s3:GetObject
                   - ssm:GetParameter
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+                  - dynamodb:GetItem
+                  - dynamodb:Query
                 Resource: "*"
 
   NodeModulesLayer:

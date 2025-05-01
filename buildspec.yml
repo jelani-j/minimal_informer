@@ -8,7 +8,7 @@ phases:
       - echo Installing cfn-lint...
       - pip install cfn-lint
       - echo Installing Node.js dependencies...
-      #- npm install
+      - npm install
 
   build:
     commands:
@@ -16,16 +16,16 @@ phases:
       - cfn-lint template.yml
       - cp template.yml output.yml
       - echo Build phase complete
-      # - echo Zipping file for lambda function
+      - echo Zipping file for lambda function
       - echo Setting S3 bucket name...
       - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
       - BUCKET_NAME="minimal-informer-codepipeline-artifacts-${ACCOUNT_ID}-${AWS_REGION}"
       # - echo Uploading 'init' folder to $BUCKET_NAME...
       # - aws s3 cp ./website_layout s3://$BUCKET_NAME/StaticWebsite/ --recursive
-      # - echo Zipping npm install for lambda dependencies
-      # - zip -r node_modules.zip node_modules/
-      # - echo Pushing zip file to bucket
-      # - aws s3 cp node_modules.zip s3://$BUCKET_NAME/node_modules.zip
+      - echo Zipping npm install for lambda dependencies
+      - zip -r node_modules.zip node_modules/
+      - echo Pushing zip file to bucket
+      - aws s3 cp node_modules.zip s3://$BUCKET_NAME/node_modules.zip
       - echo Creating functions zip folder 
       - zip -r lambdafunctions.zip functions/
       - echo Updating Functions folder 
@@ -35,7 +35,6 @@ phases:
       - echo storing version of s3 in paramater
       - VERSION_ID=$(aws s3api list-object-versions --bucket $BUCKET_NAME --prefix lambdafunctions.zip | jq -r '.Versions[0].VersionId')
       - aws ssm put-parameter --name "/MyApp/LambdaVersion" --value "$VERSION_ID" --type String --overwrite
-      #- aws cloudformation deploy --template-file template.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND --parameter-overrides LambdaCodeVersion="$VERSION_ID"
 
 artifacts:
   name: BuildOutput

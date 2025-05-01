@@ -26,50 +26,27 @@ async function assume_role(){
   }
 }
 
-function writeArrayOfDictToJson(filePath, array) {
-  fs.readFile(filePath, 'utf8', (readErr, fileData) => {
-    let existingData = {};
+async function writeArrayToDynamoDB(primary_key, data) {
+  const AWS = require("aws-sdk");
+  const dynamo = new AWS.DynamoDB.DocumentClient();
+  const categories = data;
 
-    if (!readErr) {
-      try {
-        const parsed = JSON.parse(fileData);
-        if (typeof parsed === 'object' && parsed !== null) {
-          existingData = parsed;
-        } else {
-          console.warn('Existing JSON is not a top-level object. Overwriting.');
-        }
-      } catch (parseErr) {
-        console.warn('Invalid JSON. Starting with new object.');
+  for (const category of categories) {
+    const params = {
+      TableName: "news-data",
+      Item: {
+        PK: "world_news",
+        SK: category.name,
+        category: category.name,
+        articles: category.data
       }
-    }
-
-    // Merge array into existingData
-    for (const [key, value] of Object.entries(array)) {
-      if (!Array.isArray(value)) {
-        console.warn(`Skipping key "${key}" because value is not an array.`);
-        continue;
-      }
-
-      if (!Array.isArray(existingData[key])) {
-        existingData[key] = [];
-      }
-
-      existingData[key].push(...value);
-    }
-
-    const jsonString = JSON.stringify(existingData, null, 2);
-    fs.writeFile(filePath, jsonString, (writeErr) => {
-      if (writeErr) {
-        console.error('Error writing to file:', writeErr);
-      } else {
-        console.log('JSON file updated successfully:', filePath);
-      }
-    });
-  });
+    };
+    await dynamo.put(params).promise();
+  }
 }
 
 module.exports = {
   assume_role,
-  filePath
+  filePath,
+  writeArrayToDynamoDB
 }
-

@@ -1,4 +1,4 @@
-const { assume_role, writeArrayOfDictToJson, filePath } = require('./api_run_functions');
+const { assume_role, writeArrayToDynamoDB, filePath } = require('./api_run_functions');
 
 // dictionaries for different news sources
 const world_news_dict = []; // all world news dicts will be stored in here
@@ -67,15 +67,16 @@ async function savedata(){
   const global_data = await world_news_global();
   const local_data = await local_news();
   const world_news_dict = {world_news : [enviroment_data, global_data, local_data]};
+  const world_news_data = world_news_dict.world_news;
+  await writeArrayToDynamoDB('world_news',world_news_data);
 }
 
-// savedata();
 exports.handler = async (event) => {
   try {
-    const result = await world_news_enviroment(); // Call the async function
+    const news_data = await savedata();
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: result }),
+      body: JSON.stringify({ Passed: "World News Data has been saved to DynamoDB" })
     };
   } catch (error) {
     console.error("Error:", error);

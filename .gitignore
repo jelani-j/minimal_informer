@@ -7745,3 +7745,4 @@ node_modules/@aws-sdk/client-sts/dist-types/ts3.4/models/index.d.ts
 node_modules/@aws-sdk/client-sts/dist-types/ts3.4/models/models_0.d.ts
 node_modules/@aws-sdk/client-sts/dist-types/ts3.4/models/STSServiceException.d.ts
 node_modules/@aws-sdk/client-sts/dist-types/ts3.4/protocols/Aws_query.d.ts
+node_modules
