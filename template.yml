@@ -6,7 +6,7 @@ Parameters:
   TableName:
     Description: Name for DynamoDb Table
     Type: String
-    Default: news-data
+    Default: news-data-table
   
   BucketPrefix:
     Description: Name of S3 Bucket 

@@ -30,7 +30,7 @@ async function writeArrayToDynamoDB(dataObject) {
         console.log("Sending to DynamoDB:", params.SK);
         // // Send to DynamoDB
         await docClient.send(new PutCommand({
-          TableName: "news-data",  // Hardcoded table name
+          TableName: "news-data-table",  // Hardcoded table name
           Item: params             // Directly use the flattened data
         }));
         console.log(`Successfully saved item with SK: ${params.SK}`);
