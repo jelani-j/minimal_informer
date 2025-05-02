@@ -62,27 +62,50 @@ async function local_news(){
   return {name: 'Local', data: local_dict};
 }
 
-async function savedata(){
-  const enviroment_data = await world_news_enviroment();
-  const global_data = await world_news_global();
-  const local_data = await local_news();
-  const world_news_dict = {world_news : [enviroment_data, global_data, local_data]};
-  const world_news_data = world_news_dict.world_news;
-  await writeArrayToDynamoDB('world_news',world_news_data);
+async function savedata(event){
+  // const enviroment_data = await world_news_enviroment();
+  // const global_data = await world_news_global();
+  // const local_data = await local_news();
+  // const world_news_dict = {world_news : [enviroment_data, global_data, local_data]};
+  // const world_news_data = world_news_dict.world_news;
+  // return world_news_data.Enviroment;
+  await writeArrayToDynamoDB(event);
+  return { success: true, message: "Data saved successfully to DynamoDB" };
 }
 
 exports.handler = async (event) => {
-  try {
-    const news_data = await savedata();
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ Passed: "World News Data has been saved to DynamoDB" })
-    };
-  } catch (error) {
-    console.error("Error:", error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: "Failed to process request" }),
-    };
-  }
-};
+  //console.log(event.world_news[0]);
+  const testing = await savedata(event);
+  // var secondarykey = [];
+  // var primarykey = '';
+  // for(item in event){
+  //   primarykey = item;
+  //   for(item of event[primarykey]){
+  //     // const secondaryKey = item.name;
+  //     secondarykey.push(item.name);
+  //   }
+  // }
+  // return{
+  //   PK: primarykey,
+  //   SK: secondarykey[0],
+  //   Articles: event[primarykey][0].data,
+    //Headlines: Object.keys(event[primarykey][0].data)
+  //};
+}
+
+
+  // try {
+  //   console.log("event recieved");
+  //   // const news_data = await savedata(event);
+  //   return {
+  //     statusCode: 200,
+  //     // body: JSON.stringify({ event })
+  //   };
+  // } catch (error) {
+  //   console.error("Error:", error);
+  //   return {
+  //     statusCode: 500,
+  //     body: JSON.stringify({ error: "Failed to process request" }),
+  //   };
+  // }
+//};
