@@ -176,7 +176,7 @@ Resources:
         S3Key: lambdafunctions.zip
         S3ObjectVersion: '{{resolve:ssm:/MyApp/LambdaVersion}}'
       MemorySize: 128
-      Timeout: 5
+      Timeout: 15
       Layers:
         - !Ref NodeModulesLayer  # Referencing the Lambda Layer
 

@@ -1,4 +1,4 @@
-const { assume_role, writeArrayToDynamoDB, filePath } = require('./api_run_functions');
+const { assume_role, writeArrayToDynamoDB } = require('./api_run_functions');
 
 let tech_array = [];
 let cloud_data = {};
