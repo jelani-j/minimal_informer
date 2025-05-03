@@ -179,6 +179,22 @@ Resources:
       Timeout: 15
       Layers:
         - !Ref NodeModulesLayer  # Referencing the Lambda Layer
+  
+  NewsParseFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: NewsParseFunction
+      Handler: functions/dynamodb_pull.handler
+      Runtime: nodejs18.x
+      Role: !GetAtt NewsFunctionRole.Arn
+      Code:
+        S3Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
+        S3Key: lambdafunctions.zip
+        S3ObjectVersion: '{{resolve:ssm:/MyApp/LambdaVersion}}'
+      MemorySize: 128
+      Timeout: 15
+      Layers:
+        - !Ref NodeModulesLayer  # Referencing the Lambda Layer
 
   # State machine definition
   MyStateMachine:
