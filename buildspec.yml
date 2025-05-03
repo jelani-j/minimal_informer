@@ -10,26 +10,41 @@ phases:
       - echo Installing Node.js dependencies...
       - npm install
 
+  pre_build:
+    commands:
+      # Prepare node modules zip folder 
+      - echo "Preparing Lambda Layer structure..."
+      - mkdir -p nodejs/node_modules
+      - mv node_modules/* nodejs/node_modules/
+      - echo "Lambda Layer Structure Completed"
   build:
     commands:
+      # Lintting the cloudformation Templatea
       - echo Linting CloudFormation template...
       - cfn-lint template.yml
       - cp template.yml output.yml
-      - echo Build phase complete
-      - echo Zipping file for lambda function
+
+      #Defining BucketName & account ID for website folder push
       - echo Setting S3 bucket name...
       - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
       - BUCKET_NAME="minimal-informer-codepipeline-artifacts-${ACCOUNT_ID}-${AWS_REGION}"
       # - echo Uploading 'init' folder to $BUCKET_NAME...
       # - aws s3 cp ./website_layout s3://$BUCKET_NAME/StaticWebsite/ --recursive
-      - echo Zipping npm install for lambda dependencies
-      - zip -r node_modules.zip node_modules/
+
+      # Create the zip folder for lambda layer
+      - echo "Zipping the Lambda Layer Folder with the npm install"
+      - zip -r node_modules.zip nodejs/
       - echo Pushing zip file to bucket
       - aws s3 cp node_modules.zip s3://$BUCKET_NAME/node_modules.zip
+
+      #Create Lambda Function Zip FOlder
       - echo Creating functions zip folder 
       - zip -r lambdafunctions.zip functions/
       - echo Updating Functions folder 
       - aws s3 cp lambdafunctions.zip s3://$BUCKET_NAME/lambdafunctions.zip
+      
+  post_build:
+    commands:
       - echo Deploying new changes
       # - aws cloudformation deploy --template-file template.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND
       - echo storing version of s3 in paramater
