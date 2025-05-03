@@ -119,7 +119,8 @@ Resources:
   NodeModulesLayer:
     Type: AWS::Lambda::LayerVersion
     Properties:
-      LayerName: NodeModulesLayer
+      LayerName: NodeModulesLayer-v3
+      Description: "Node modules for Lambda (v3)"
       Content:
         S3Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
         S3Key: !Sub "${LambdaCodeKey}"
