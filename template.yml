@@ -115,6 +115,14 @@ Resources:
                   - dynamodb:DeleteItem
                   - dynamodb:Scan
                 Resource: "*"
+  
+  NewsParseLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt NewsParseFunction.Arn
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*/GET/news
 
   NodeModulesLayer:
     Type: AWS::Lambda::LayerVersion
@@ -196,6 +204,47 @@ Resources:
       Layers:
         - !Ref NodeModulesLayer  # Referencing the Lambda Layer
 
+  # Api Creation
+  NewsApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: NewsApi
+
+  NewsResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref NewsApi
+      ParentId: !GetAtt NewsApi.RootResourceId
+      PathPart: news
+  
+  NewsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref NewsApi
+      ResourceId: !Ref NewsResource
+      HttpMethod: GET
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri: !Sub
+          - arn:aws:apigateway:${Region}:lambda:path/2015-03-31/functions/${LambdaArn}/invocations
+          - Region: !Ref AWS::Region
+            LambdaArn: !GetAtt NewsParseFunction.Arn
+      MethodResponses:
+        - StatusCode: 200
+      RequestParameters:
+        method.request.querystring.PK: false
+        method.request.querystring.num: false
+  
+  # Deployment
+  NewsApiDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn: NewsMethod
+    Properties:
+      RestApiId: !Ref NewsApi
+      StageName: informer
+
   # State machine definition
   MyStateMachine:
     Type: "AWS::StepFunctions::StateMachine"
@@ -246,5 +295,8 @@ Resources:
               }
             }
 
-# Outputs:
-#   set of outputs
+Outputs:
+
+  ApiInvokeUrl:
+    Description: "API endpoint"
+    Value: !Sub "https://${NewsApi}.execute-api.${AWS::Region}.amazonaws.com/prod/news"
