@@ -1,24 +1,33 @@
-export function displayTable(data, arrayName, sectionIndex, tablename) {
-    const entry = data[arrayName]?.[sectionIndex];
-  
-    const output = document.getElementById(tablename); // table-output
-    output.innerHTML = ''; // clear previous content
-    if (!entry) {
-      output.textContent = `No data found for ${arrayName}[${sectionIndex}]`;
-      return;
-    }
-  
-    const title = document.createElement('h2');
-    title.textContent = 'Table Name: ' + entry.name;
-    output.appendChild(title);
-    //tech_output.appendChild(title);
-  
-    const table = document.createElement('table');
-  
-    Object.entries(entry.data || {}).forEach(([key, value]) => {
-      const row = document.createElement('tr');
-      row.innerHTML = `<td><strong>${key}</strong></td><td>${value}</td>`;
-      table.appendChild(row);
-    });
-    output.appendChild(table);
+// when api is completed move this to website folder this will be the .js to create the table from the data recieved via the backend lambda
+function displayTable(jsonData, tableId) {
+  const table = document.getElementById(tableId);
+  const data = jsonData;
+  table.innerHTML = '';
+
+  data.forEach((item, index) => {
+    const row = table.insertRow();
+    const cell1 = row.insertCell(0);
+    const cell2 = row.insertCell(1);
+    const cell3 = row.insertCell(2);
+
+    cell1.textContent = index + 1;
+    cell2.textContent = item.title;
+    cell3.textContent = item.description;
+  });
+}
+
+async function fetchAndDisplay(jsonData, tableId) {
+  try {
+    const articles = await getArticleData(PK, num);
+    displayTable(articles, PK, num, tableId);
+  } catch (error) {
+    console.error('Failed to fetch or display data:', error);
   }
+}
+// World News Triggers
+async function world_news_trigger(){
+  await fetchAndDisplay('world_news', 0, 'table-output');
+  await fetchAndDisplay('world_news', 1, 'table-output');
+  await fetchAndDisplay('world_news', 2, 'table-output');
+}
+
