@@ -1,5 +1,4 @@
-import * as fs from 'fs';
-import {assume_role, writeArrayOfDictToJson, filePath} from './api_run_functions.js';
+const { assume_role, writeArrayToDynamoDB, filePath } = require('./api_run_functions');
 
 let tech_array = [];
 let cloud_data = {};
@@ -64,9 +63,24 @@ async function savedata(){
   const cloud_computing_data = await cloud_computing_info();
   const coding_news_data = await coding_info();
   const hardware_news_data = await hardware_info();
-  const world_news_dict = {tech_news : [cloud_computing_data, coding_news_data, hardware_news_data]};
+  const tech_news_dict = {tech_news : [cloud_computing_data, coding_news_data, hardware_news_data]};
 
-  writeArrayOfDictToJson(filePath, world_news_dict);
+  await writeArrayToDynamoDB(tech_news_dict);
+  return { success: true, message: "Data saved successfully to DynamoDB" };
 }
 
-savedata()
+exports.handler = async () => {
+  try{
+    const tech_news_save = await savedata();
+    return {
+      statusCode: 200,
+      body: JSON.stringify( {message: "Data saved successfully to DynamoDB" })
+    };
+  }catch (error) {
+      console.error("Error:", error);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: "Failed to process request" }),
+      };
+    }
+}

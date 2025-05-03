@@ -86,7 +86,7 @@ Resources:
                   - lambda:InvokeFunction
                 Resource: "*"
   # Lambda Function Definition
-  WorldNewsFunctionRole:
+  NewsFunctionRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -112,6 +112,8 @@ Resources:
                   - dynamodb:UpdateItem
                   - dynamodb:GetItem
                   - dynamodb:Query
+                  - dynamodb:DeleteItem
+                  - dynamodb:Scan
                 Resource: "*"
 
   NodeModulesLayer:
@@ -131,7 +133,7 @@ Resources:
       FunctionName: WorldNewsFunction
       Handler: functions/world-news.handler
       Runtime: nodejs18.x
-      Role: !GetAtt WorldNewsFunctionRole.Arn
+      Role: !GetAtt NewsFunctionRole.Arn
       Code:
         S3Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
         S3Key: lambdafunctions.zip
@@ -145,6 +147,38 @@ Resources:
           BUCKET_NAME: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
           LAMBDA_ZIP_KEY: !Sub "${LambdaCodeKey}"  # The key to the node_modules.zip file in S3
 
+  TechNewsFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: TechNewsFunction
+      Handler: functions/tech-news.handler
+      Runtime: nodejs18.x
+      Role: !GetAtt NewsFunctionRole.Arn
+      Code:
+        S3Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
+        S3Key: lambdafunctions.zip
+        S3ObjectVersion: '{{resolve:ssm:/MyApp/LambdaVersion}}'
+      MemorySize: 128
+      Timeout: 5
+      Layers:
+        - !Ref NodeModulesLayer  # Referencing the Lambda Layer
+  
+  TravelNewsFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: TravelNewsFunction
+      Handler: functions/travel-news.handler
+      Runtime: nodejs18.x
+      Role: !GetAtt NewsFunctionRole.Arn
+      Code:
+        S3Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
+        S3Key: lambdafunctions.zip
+        S3ObjectVersion: '{{resolve:ssm:/MyApp/LambdaVersion}}'
+      MemorySize: 128
+      Timeout: 5
+      Layers:
+        - !Ref NodeModulesLayer  # Referencing the Lambda Layer
+
   # State machine definition
   MyStateMachine:
     Type: "AWS::StepFunctions::StateMachine"
@@ -154,11 +188,42 @@ Resources:
         Fn::Sub: |
             {
               "Comment": "State machine to fetch news",
-              "StartAt": "FetchNews",
+              "StartAt": "ParallelBranch",
               "States": {
-                "FetchNews": {
-                  "Type": "Task",
-                  "Resource": "${WorldNewsFunction.Arn}",
+                "ParallelBranch": {
+                  "Type": "Parallel",
+                  "Branches": [
+                    {
+                      "StartAt": "WorldNews",
+                      "States": {
+                        "WorldNews": {
+                          "Type": "Task",
+                          "Resource": "${WorldNewsFunction.Arn}",
+                          "End": true
+                        }
+                      }
+                    },
+                    {
+                      "StartAt": "TechNews",
+                      "States": {
+                        "TechNews": {
+                          "Type": "Task",
+                          "Resource": "${TechNewsFunction.Arn}",
+                          "End": true
+                        }
+                      }
+                    },
+                    {
+                      "StartAt": "TravelNews",
+                      "States": {
+                        "TravelNews": {
+                          "Type": "Task",
+                          "Resource": "${TravelNewsFunction.Arn}",
+                          "End": true
+                        }
+                      }
+                    }
+                  ],
                   "End": true
                 }
               }
