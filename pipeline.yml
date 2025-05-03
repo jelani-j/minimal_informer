@@ -39,6 +39,7 @@ Resources:
                   - dynamodb:*
                   - lambda:*
                   - ssm:*
+                  - states:UpdateStateMachine
                   # add any others your template uses
                 Resource: "*"
   # for code build
