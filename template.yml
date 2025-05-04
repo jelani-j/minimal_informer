@@ -260,8 +260,8 @@ Resources:
           ResponseParameters:
             method.response.header.Access-Control-Allow-Origin: true
       RequestParameters:
-        method.request.querystring.PK: false
-        method.request.querystring.num: false
+        method.request.querystring.PK: true
+        method.request.querystring.num: true
   
   # Deployment
   NewsApiDeployment:
