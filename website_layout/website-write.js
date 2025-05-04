@@ -19,7 +19,7 @@ function displayTable(data, tableId) {
 
 async function fetchDataAndDisplayTable(PK,num,tableId) {
   try {
-    const apiEndpoint = 'https://8a8wfs8ahe.execute-api.us-east-2.amazonaws.com/informer/news'
+    const apiEndpoint = 'https://8a8wfs8ahe.execute-api.us-east-2.amazonaws.com/informer-clean/news'
     const apiRequest = await fetch(`${apiEndpoint}?PK=${PK}&num=${num}`);
     if (!response.ok) {
       throw new Error('Failed to fetch data');

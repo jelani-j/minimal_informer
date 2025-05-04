@@ -400,3 +400,5 @@ Outputs:
   ApiInvokeUrl:
     Description: "API endpoint"
     Value: !Sub "https://${NewsApi}.execute-api.${AWS::Region}.amazonaws.com/informer-clean/news"
+    Export:
+      Name: NewsApiEndpoint
