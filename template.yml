@@ -188,7 +188,9 @@ Resources:
       FunctionName: !GetAtt NewsParseFunction.Arn
       Action: lambda:InvokeFunction
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${NewsApi}/informer-clean/*/GET/news
+      SourceArn: !Sub
+        - arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiId}/*/GET/news
+        - ApiId: !Ref NewsApi
 
   NodeModulesLayer:
     Type: AWS::Lambda::LayerVersion
