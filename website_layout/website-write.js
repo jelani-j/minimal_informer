@@ -25,6 +25,7 @@ async function fetchDataAndDisplayTable(PK,num,tableId) {
       throw new Error('Failed to fetch data');
     }
     const data = await response.json();
+    console.log('API data:', data);
     displayTable(data, tableId);
   } catch (error) {
     console.error('Failed to display data:', error);
