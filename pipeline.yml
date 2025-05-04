@@ -89,6 +89,32 @@ Resources:
       BucketName: !Sub "minimal-informer-codepipeline-artifacts-${AWS::AccountId}-${AWS::Region}"
       VersioningConfiguration:
         Status: Enabled
+      WebsiteConfiguration:
+        IndexDocument: StaticWebsite/index.html
+        ErrorDocument: StaticWebsite/error.html
+
+  WebsiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "minimal-informer-website-bucket-${AWS::AccountId}-${AWS::Region}"
+      VersioningConfiguration:
+          Status: Enabled
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+
+  StaticWebsiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref WebsiteBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: "*"
+            Action: "s3:GetObject"
+            Resource: !Sub "arn:aws:s3:::${WebsiteBucket}/StaticWebsite/*"
   # create github connection 
   GitHubConnection:
       Type: AWS::CodeStarConnections::Connection

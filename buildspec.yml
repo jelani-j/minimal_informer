@@ -28,7 +28,8 @@ phases:
       - echo Setting S3 bucket name...
       - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
       - BUCKET_NAME="minimal-informer-codepipeline-artifacts-${ACCOUNT_ID}-${AWS_REGION}"
-      - aws s3 sync ./website_layout s3://$BUCKET_NAME/StaticWebsite/ --delete
+      - STATIC_WEBSITE_BUCKET="minimal-informer-website-bucket-${ACCOUNT_ID}-${AWS_REGION}"
+      - aws s3 sync ./website_layout/ s3://$STATIC_WEBSITE_BUCKET/StaticWebsite/ --delete
 
       # Create the zip folder for lambda layer
       - echo "Zipping the Lambda Layer Folder with the npm install"
