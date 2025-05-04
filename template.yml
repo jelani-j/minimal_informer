@@ -264,6 +264,8 @@ Resources:
     Type: AWS::ApiGateway::RestApi
     Properties:
       Name: NewsApi
+      Description: "News API"
+      FailOnWarnings: "true"
 
   NewsResource:
     Type: AWS::ApiGateway::Resource
@@ -325,6 +327,15 @@ Resources:
     Properties:
       RestApiId: !Ref NewsApi
       StageName: informer
+      StageDescription: 
+        MethodSettings:
+          - ResourcePath: "/*"
+            HttpMethod: "*"
+            LoggingLevel: INFO  # Optional: choose between INFO or ERROR
+            DataTraceEnabled: true  # Optional: for detailed request data
+        AccessLogSetting:
+          Format: '{"requestId": "$context.requestId", "ip": "$context.identity.sourceIp", "caller": "$context.identity.caller", "user": "$context.identity.user", "method": "$context.httpMethod", "resource": "$context.resourcePath", "status": "$context.status", "responseLength": "$context.responseLength"}'
+          DestinationArn: !GetAtt ApiGatewayCloudWatchLogsRole.Arn 
 
   # State machine definition
   MyStateMachine:
