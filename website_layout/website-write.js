@@ -3,11 +3,27 @@
 function displayTable(data, tableId) {
   const table = document.getElementById(tableId);
   table.innerHTML = '';
+  // Add caption row at the top
+  const captionRow = table.createTHead().insertRow();
+  const captionCell = captionRow.insertCell(0);
+  captionCell.colSpan = 3; // spans all columns
+  captionCell.textContent = `${category} Table`;
+  captionCell.style.fontWeight = 'bold';
+  captionCell.style.textAlign = 'left';
+  captionCell.style.padding = '10px 0';
+
+  // Create header row
+  const headerRow = table.insertRow();
+  headerRow.innerHTML = `
+    <th>#</th>
+    <th>Title</th>
+    <th>Description</th>
+  `;
   const table_data = Object.entries(data).map(([title, description]) => ({
     title,
     description
   }));
-  console.log(table_data);
+  
   table_data.forEach((item, index) => {
     const row = table.insertRow();
     const cell1 = row.insertCell(0);
@@ -20,7 +36,7 @@ function displayTable(data, tableId) {
   });
 }
 
-async function fetchDataAndDisplayTable(PK,num,tableId) {
+async function fetchDataAndDisplayTable(PK,num,tableId,category) {
   try {
     const apiEndpoint = 'https://pz97t6bdkc.execute-api.us-east-2.amazonaws.com/informer-clean/news'
     const response = await fetch(`${apiEndpoint}?PK=${PK}&num=${num}`);
@@ -28,7 +44,7 @@ async function fetchDataAndDisplayTable(PK,num,tableId) {
       throw new Error('Failed to fetch data');
     }
     const data = await response.json();
-    displayTable(data, tableId);
+    displayTable(data, tableId,category);
   } catch (error) {
     console.error('Failed to display data:', error);
   }
@@ -42,17 +58,17 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (envNewsBtn) {
     envNewsBtn.addEventListener('click', () => {
-      fetchDataAndDisplayTable('world_news', 0, 'table-output');
+      fetchDataAndDisplayTable('world_news', 0, 'table-output','Enviroment');
     });
   }
   if(globalNewsBtn){
     globalNewsBtn.addEventListener('click', () =>{
-      fetchDataAndDisplayTable('world_news', 1, 'table-output');
+      fetchDataAndDisplayTable('world_news', 1, 'table-output', 'Global');
     })
   }
   if(localNewsBtn){
     localNewsBtn.addEventListener('click', () =>{
-      fetchDataAndDisplayTable('world_news', 2, 'table-output');
+      fetchDataAndDisplayTable('world_news', 2, 'table-output', 'Local');
     })
   }
 });
@@ -65,17 +81,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (CldNewsBtn) {
     CldNewsBtn.addEventListener('click', () => {
-      fetchDataAndDisplayTable('tech_news', 0, 'table-output-tech');
+      fetchDataAndDisplayTable('tech_news', 0, 'table-output-tech', 'Cloud');
     });
   }
   if(SftNewsBtn){
     SftNewsBtn.addEventListener('click', () =>{
-      fetchDataAndDisplayTable('tech_news', 1, 'table-output-tech');
+      fetchDataAndDisplayTable('tech_news', 1, 'table-output-tech', 'Software');
     })
   }
   if(HwdNewsBtn){
     HwdNewsBtn.addEventListener('click', () =>{
-      fetchDataAndDisplayTable('tech_news', 2, 'table-output-tech');
+      fetchDataAndDisplayTable('tech_news', 2, 'table-output-tech', 'Hardware');
     })
   }
 });
@@ -89,17 +105,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (AdvNewsBtn) {
     AdvNewsBtn.addEventListener('click', () => {
-      fetchDataAndDisplayTable('travel_news', 0, 'table-output-travel');
+      fetchDataAndDisplayTable('travel_news', 0, 'table-output-travel', 'Advisory');
     });
   }
   if(GerNewsBtn){
     GerNewsBtn.addEventListener('click', () =>{
-      fetchDataAndDisplayTable('travel_news', 1, 'table-output-travel');
+      fetchDataAndDisplayTable('travel_news', 1, 'table-output-travel', 'German Holidays');
     })
   }
   if(JapNewsBtn){
     JapNewsBtn.addEventListener('click', () =>{
-      fetchDataAndDisplayTable('travel_news', 2, 'table-output-travel');
+      fetchDataAndDisplayTable('travel_news', 2, 'table-output-travel', 'Japan');
     })
   }
 });
