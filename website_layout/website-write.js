@@ -17,7 +17,7 @@ function displayTable(data, tableId) {
   });
 }
 
-async function fetchDataAndDisplayTable(PK,num) {
+async function fetchDataAndDisplayTable(PK,num,tableId) {
   try {
     const apiEndpoint = 'https://8a8wfs8ahe.execute-api.us-east-2.amazonaws.com/informer'
     const apiRequest = await fetch(`${apiEndpoint}?PK=${PK}&num=${num}`);
