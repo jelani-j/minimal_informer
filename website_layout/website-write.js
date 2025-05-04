@@ -7,6 +7,7 @@ function displayTable(data, tableId) {
     title,
     description
   }));
+  console.log(table_data);
   table_data.forEach((item, index) => {
     const row = table.insertRow();
     const cell1 = row.insertCell(0);
@@ -27,7 +28,6 @@ async function fetchDataAndDisplayTable(PK,num,tableId) {
       throw new Error('Failed to fetch data');
     }
     const data = await response.json();
-    console.log('API data:', data);
     displayTable(data, tableId);
   } catch (error) {
     console.error('Failed to display data:', error);
