@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   if(localNewsBtn){
     localNewsBtn.addEventListener('click', () =>{
-      fetchDataAndDisplayTable('world_news', 1, 'table-output');
+      fetchDataAndDisplayTable('world_news', 2, 'table-output');
     })
   }
 });
@@ -62,17 +62,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (CldNewsBtn) {
     CldNewsBtn.addEventListener('click', () => {
-      fetchDataAndDisplayTable('tech_news', 0, 'table-output');
+      fetchDataAndDisplayTable('tech_news', 0, 'table-output-tech');
     });
   }
   if(SftNewsBtn){
     SftNewsBtn.addEventListener('click', () =>{
-      fetchDataAndDisplayTable('tech_news', 1, 'table-output');
+      fetchDataAndDisplayTable('tech_news', 1, 'table-output-tech');
     })
   }
   if(HwdNewsBtn){
     HwdNewsBtn.addEventListener('click', () =>{
-      fetchDataAndDisplayTable('tech_news', 1, 'table-output');
+      fetchDataAndDisplayTable('tech_news', 2, 'table-output-tech');
     })
   }
 });
@@ -86,17 +86,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (AdvNewsBtn) {
     AdvNewsBtn.addEventListener('click', () => {
-      fetchDataAndDisplayTable('travel_news', 0, 'table-output');
+      fetchDataAndDisplayTable('travel_news', 0, 'table-output-travel');
     });
   }
   if(GerNewsBtn){
     GerNewsBtn.addEventListener('click', () =>{
-      fetchDataAndDisplayTable('travel_news', 1, 'table-output');
+      fetchDataAndDisplayTable('travel_news', 1, 'table-output-travel');
     })
   }
   if(JapNewsBtn){
     JapNewsBtn.addEventListener('click', () =>{
-      fetchDataAndDisplayTable('travel_news', 1, 'table-output');
+      fetchDataAndDisplayTable('travel_news', 2, 'table-output-travel');
     })
   }
 });
