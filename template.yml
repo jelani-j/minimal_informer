@@ -92,28 +92,28 @@ Resources:
   NewsParseLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub "/aws/lambda/${NewsParseFunction}"
+      LogGroupName: !Sub "/aws/lambda/${NewsParseFunction}-logging"
     DeletionPolicy: Delete
     UpdateReplacePolicy: Retain
       
   WorldNewsLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub "/aws/lambda/${WorldNewsFunction}"
+      LogGroupName: !Sub "/aws/lambda/${WorldNewsFunction}-logging"
     DeletionPolicy: Delete
     UpdateReplacePolicy: Retain
   
   TechNewsLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub "/aws/lambda/${TechNewsFunction}"
+      LogGroupName: !Sub "/aws/lambda/${TechNewsFunction}-logging"
     DeletionPolicy: Delete
     UpdateReplacePolicy: Retain
 
   TravelNewsLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub "/aws/lambda/${TravelNewsFunction}"
+      LogGroupName: !Sub "/aws/lambda/${TravelNewsFunction}-logging"
     DeletionPolicy: Delete
     UpdateReplacePolicy: Retain
 
