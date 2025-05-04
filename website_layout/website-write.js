@@ -17,7 +17,7 @@ function displayTable(data, tableId) {
   });
 }
 
-async function fetchAndDisplay(PK,num) {
+async function fetchDataAndDisplayTable(PK,num) {
   try {
     const apiEndpoint = 'https://8a8wfs8ahe.execute-api.us-east-2.amazonaws.com/informer'
     const apiRequest = await fetch(`${apiEndpoint}?PK=${PK}&num=${num}`);
@@ -29,12 +29,6 @@ async function fetchAndDisplay(PK,num) {
   } catch (error) {
     console.error('Failed to display data:', error);
   }
-}
-// World News Triggers
-async function world_news_trigger(){
-  await fetchAndDisplay('world_news', 0, 'table-output');
-  await fetchAndDisplay('world_news', 1, 'table-output');
-  await fetchAndDisplay('world_news', 2, 'table-output');
 }
 
 //World News Triggers
