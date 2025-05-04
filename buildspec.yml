@@ -46,7 +46,7 @@ phases:
   post_build:
     commands:
       - echo Deploying new changes
-      - aws cloudformation deploy --template-file template.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND
+      #- aws cloudformation deploy --template-file template.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND
       - echo storing version of s3 in paramater
       - VERSION_ID=$(aws s3api list-object-versions --bucket $BUCKET_NAME --prefix lambdafunctions.zip | jq -r '.Versions[0].VersionId')
       - aws ssm put-parameter --name "/MyApp/LambdaVersion" --value "$VERSION_ID" --type String --overwrite
