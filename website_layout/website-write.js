@@ -2,12 +2,11 @@
 // Create and Display Table Info
 function displayTable(data, tableId, category) {
   const table = document.getElementById(tableId);
+  table.className = 'news_table';
   table.innerHTML = '';
   // Add <caption>
   const caption = document.createElement('caption');
   caption.textContent = `${category} Table`;
-  caption.style.fontWeight = 'bold';
-  caption.style.textAlign = 'left';
   table.appendChild(caption);
 
   // Create header row

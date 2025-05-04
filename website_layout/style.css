@@ -1,3 +1,4 @@
+/* main website color and layout */
 body {
   background-color: rgb(45, 47, 48);
   display: flex;
@@ -28,6 +29,7 @@ p {
   grid-template-columns: repeat(3, 2fr);
   border: rgb(7, 211, 194);
 }
+/* button display */
 .World-News-Buttons{
   display: grid;
   grid-template-columns: repeat(3, 30fr);
@@ -40,20 +42,31 @@ p {
   background: linear-gradient(#0000, rgb(0 0 0/40%)) top/100% 800%;
   background-color: rgb(27, 99, 117);
   transition: 0.5s;
-  
 }
 .Enviroment:hover, .Global:hover, .Local:hover, .back-button:hover{
   background-position: bottom;
 }
-.world_news_table, tr, th, td{
-  width: 50%;
+/* news table display */
+.news_table{
+  width: 80%;
   color: #fff;
-
+  margin: 20px auto;
+  border-collapse: collapse;
   border: 1px solid;
   text-align: center;
-  margin-left: auto;
-  margin-right: auto;
 }
+.news_table th,
+.news_table td {
+  border: 1px solid;
+  padding: 8px;
+}
+.news_table caption {
+  caption-side: top;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+/* footer & back button area */
 .back-button{
   font-size: 20px;
   padding: 10px 250px;
@@ -62,8 +75,6 @@ p {
 }
 footer{
   background-color: rgba(123, 122, 126, 0.836);
-
-  /* position: absolute; */
   bottom: 0;
   display: block;
   width: 100%;
