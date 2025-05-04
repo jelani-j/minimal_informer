@@ -268,8 +268,6 @@ Resources:
     Type: AWS::ApiGateway::RestApi
     Properties:
       Name: NewsApi
-      Description: "News API"
-      FailOnWarnings: "true"
 
   NewsResource:
     Type: AWS::ApiGateway::Resource
