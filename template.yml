@@ -336,21 +336,6 @@ Resources:
     Properties:
       RestApiId: !Ref NewsApi
       StageName: informer
-  
-  NewsStage:
-    Type: AWS::ApiGateway::Stage
-    Properties:
-      StageName: informer
-      RestApiId: !Ref NewsApi
-      DeploymentId: !Ref NewsApiDeployment
-      MethodSettings:
-        - ResourcePath: "/*"
-          HttpMethod: "*"
-          LoggingLevel: INFO
-          DataTraceEnabled: true
-      AccessLogSetting:
-        DestinationArn: !GetAtt ApiGatewayLogGroup.Arn
-        Format: '{"requestId":"$context.requestId","ip":"$context.identity.sourceIp"}'
 
 
   # State machine definition
