@@ -188,7 +188,7 @@ Resources:
       FunctionName: !GetAtt NewsParseFunction.Arn
       Action: lambda:InvokeFunction
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${NewsApi}/informer/*/GET/news
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${NewsApi}/informer-clean/*/GET/news
 
   NodeModulesLayer:
     Type: AWS::Lambda::LayerVersion
@@ -335,7 +335,14 @@ Resources:
     DependsOn: NewsMethod
     Properties:
       RestApiId: !Ref NewsApi
-      StageName: informer
+
+  # Explicit stage (clean, no MethodSettings)
+  NewsStage:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      StageName: informer-clean  # change the name temporarily
+      RestApiId: !Ref NewsApi
+      DeploymentId: !Ref NewsApiDeployment
 
 
   # State machine definition
@@ -392,4 +399,4 @@ Outputs:
 
   ApiInvokeUrl:
     Description: "API endpoint"
-    Value: !Sub "https://${NewsApi}.execute-api.${AWS::Region}.amazonaws.com/informer/news"
+    Value: !Sub "https://${NewsApi}.execute-api.${AWS::Region}.amazonaws.com/informer-clean/news"
