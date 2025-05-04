@@ -99,7 +99,10 @@ Resources:
   NewsApiLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub "/aws/api-gateway/informer"
+      LogGroupName: !Join
+        - '-'
+        - - !Ref NewsApi
+          - access-logs
     DeletionPolicy: Delete
     UpdateReplacePolicy: Retain
       
