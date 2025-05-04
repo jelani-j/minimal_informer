@@ -78,6 +78,7 @@ Resources:
                   - cloudformation:ExecuteChangeSet
                   - s3:ListBucket
                   - s3:DeleteObject
+                  - lambda:PublishLayerVersion
                 Resource: "*"
               - Effect: Allow
                 Action:
