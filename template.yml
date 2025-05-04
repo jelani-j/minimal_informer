@@ -95,6 +95,13 @@ Resources:
       LogGroupName: !Sub "/aws/lambda/${NewsParseFunction}-logging"
     DeletionPolicy: Delete
     UpdateReplacePolicy: Retain
+  
+  ApiGatewayLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/apigateway/news-api
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
       
   WorldNewsLogGroup:
     Type: AWS::Logs::LogGroup
@@ -329,6 +336,22 @@ Resources:
     Properties:
       RestApiId: !Ref NewsApi
       StageName: informer
+  
+  NewsStage:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      StageName: informer
+      RestApiId: !Ref NewsApi
+      DeploymentId: !Ref NewsApiDeployment
+      MethodSettings:
+        - ResourcePath: "/*"
+          HttpMethod: "*"
+          LoggingLevel: INFO
+          DataTraceEnabled: true
+      AccessLogSetting:
+        DestinationArn: !GetAtt ApiGatewayLogGroup.Arn
+        Format: '{"requestId":"$context.requestId","ip":"$context.identity.sourceIp"}'
+
 
   # State machine definition
   MyStateMachine:
