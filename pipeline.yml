@@ -67,7 +67,16 @@ Resources:
                   - s3:GetObject
                   - s3:PutObject
                   - s3:GetBucketLocation
-                  - cloudformation:*
+                  - cloudformation:DescribeStacks
+                  - cloudformation:GetTemplateSummary
+                  - cloudformation:CreateChangeSet
+                  - cloudformation:UpdateStack
+                  - ssm:PutParameter
+                  - s3:ListBucketVersions
+                  - cloudformation:DescribeChangeSet
+                  - cloudformation:ExecuteChangeSet
+                  - s3:ListBucket
+                  - s3:DeleteObject
                 Resource: "*"
               - Effect: Allow
                 Action:
