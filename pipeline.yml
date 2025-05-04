@@ -89,14 +89,15 @@ Resources:
       BucketName: !Sub "minimal-informer-codepipeline-artifacts-${AWS::AccountId}-${AWS::Region}"
       VersioningConfiguration:
         Status: Enabled
-      WebsiteConfiguration:
-        IndexDocument: StaticWebsite/index.html
-        ErrorDocument: StaticWebsite/error.html
 
   WebsiteBucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub "minimal-informer-website-bucket-${AWS::AccountId}-${AWS::Region}"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
       VersioningConfiguration:
           Status: Enabled
       WebsiteConfiguration:
