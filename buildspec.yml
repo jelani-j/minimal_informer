@@ -1,0 +1,60 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo Installing cfn-lint...
+      - pip install cfn-lint
+      - echo Installing Node.js dependencies...
+      # - npm install
+
+  pre_build:
+    commands:
+      # Prepare node modules zip folder 
+      # - echo "Preparing Lambda Layer structure..."
+      # - mkdir -p nodejs/node_modules
+      # - mv node_modules/* nodejs/node_modules/
+      - echo "Lambda Layer Structure Completed"
+  build:
+    commands:
+      # Lintting the cloudformation Templatea
+      - echo Linting CloudFormation template...
+      - cfn-lint template.yml
+      - cp template.yml output.yml
+
+      #Defining BucketName & account ID for website folder push
+      - echo Setting S3 bucket name...
+      - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+      - BUCKET_NAME="minimal-informer-codepipeline-artifacts-${ACCOUNT_ID}-${AWS_REGION}"
+      - STATIC_WEBSITE_BUCKET="minimal-informer-website-bucket-${ACCOUNT_ID}-${AWS_REGION}"
+      - aws s3 sync ./website_layout/ s3://$STATIC_WEBSITE_BUCKET/ --delete
+
+      # Create the Node Module zip folder for lambda layer
+      # - echo "Zipping the Lambda Layer Folder with the npm install"
+      # - zip -r node_modules.zip nodejs/
+      # - echo Pushing zip file to bucket
+      # - aws s3 cp node_modules.zip s3://$BUCKET_NAME/node_modules.zip
+
+      #Create Lambda Function Zip FOlder
+      - echo Creating functions zip folder 
+      - zip -r lambdafunctions.zip functions/
+      - echo Updating Functions folder 
+      - aws s3 cp lambdafunctions.zip s3://$BUCKET_NAME/lambdafunctions.zip
+      
+  post_build:
+    commands:
+      - echo Deploying new changes
+      #- aws cloudformation deploy --template-file template.yml --stack-name MyAppStack --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND
+      - echo storing version of s3 in paramater
+      - VERSION_ID=$(aws s3api list-object-versions --bucket $BUCKET_NAME --prefix lambdafunctions.zip | jq -r '.Versions[0].VersionId')
+      - aws ssm put-parameter --name "/MyApp/LambdaVersion" --value "$VERSION_ID" --type String --overwrite
+
+artifacts:
+  name: BuildOutput
+  files:
+    - output.yml
+    - node_modules.zip
+    - lambdafunctions.zip
+  discard-paths: yes

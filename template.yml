@@ -1,0 +1,406 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
+
+Parameters:
+  TableName:
+    Description: Name for DynamoDb Table
+    Type: String
+    Default: news-data-table
+  
+  BucketPrefix:
+    Description: Name of S3 Bucket 
+    Type: String
+    Default: minimal-informer-codepipeline-artifacts
+
+  LambdaCodeKey:
+    Type: String
+    Description: Path to the ZIP file inside the bucket
+    Default: node_modules.zip
+  
+  # LambdaCodeVersion:
+  #   Type: String
+  #   Description: Version of the lambda.zip file to keep code in aws up to date built via buildspec
+  #   Default: '{{resolve:ssm:/MyApp/LambdaVersion}}'
+
+Resources:
+  NewsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties: 
+      TableName: !Ref TableName
+      AttributeDefinitions:
+        - AttributeName: PK
+          AttributeType: S
+        - AttributeName: SK
+          AttributeType: S
+      KeySchema:
+        - AttributeName: PK
+          KeyType: HASH
+        - AttributeName: SK
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+
+  # Role Creation
+  NewsFetchMachineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement: 
+          - Effect: Allow
+            Principal: 
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: AllowDynamoDBAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement: 
+              - Effect: Allow
+                Action:
+                  - dynamodb:PutItem
+                  - dynamodb:GetItem
+                  - dynamodb:UpdateItem
+                  - dynamodb:DeleteItem
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+
+  StateMachineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement: 
+          - Effect: Allow
+            Principal:
+              Service: states.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName:  StateMachineLambdaInvoke
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow 
+                Action:
+                  - lambda:InvokeFunction
+                Resource: "*"
+  #Log Creation for Debugging
+  NewsParseLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${NewsParseFunction}-logging"
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+  
+  ApiGatewayLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/apigateway/news-api
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+      
+  WorldNewsLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${WorldNewsFunction}-logging"
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+  
+  TechNewsLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${TechNewsFunction}-logging"
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+
+  TravelNewsLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${TravelNewsFunction}-logging"
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+
+  # Lambda Function Definition
+  ApiGatewayCloudWatchLogsRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: APIGatewayCloudWatchLogsRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: apigateway.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: APIGatewayLoggingPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - logs:DescribeLogGroups
+                  - logs:DescribeLogStreams
+                  - logs:GetLogEvents
+                  - logs:FilterLogEvents
+                Resource: "*"
+
+  NewsFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: BasicLambdaExecution
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - s3:GetObject
+                  - ssm:GetParameter
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+                  - dynamodb:GetItem
+                  - dynamodb:Query
+                  - dynamodb:DeleteItem
+                  - dynamodb:Scan
+                Resource: "*"
+  
+  NewsParseLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt NewsParseFunction.Arn
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub
+        - arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiId}/*/GET/news
+        - ApiId: !Ref NewsApi
+
+  NodeModulesLayer:
+    Type: AWS::Lambda::LayerVersion
+    Properties:
+      LayerName: NodeModulesLayer-v3
+      Description: "Node modules for Lambda (v3)"
+      Content:
+        S3Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
+        S3Key: !Sub "${LambdaCodeKey}"
+      CompatibleRuntimes:
+        - nodejs18.x
+
+  #Function Creation
+  WorldNewsFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: WorldNewsFunction
+      Handler: functions/world-news.handler
+      Runtime: nodejs18.x
+      Role: !GetAtt NewsFunctionRole.Arn
+      Code:
+        S3Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
+        S3Key: lambdafunctions.zip
+        S3ObjectVersion: '{{resolve:ssm:/MyApp/LambdaVersion}}'
+      MemorySize: 128
+      Timeout: 5
+      Layers:
+        - !Ref NodeModulesLayer  # Referencing the Lambda Layer
+      Environment:
+        Variables:
+          BUCKET_NAME: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
+          LAMBDA_ZIP_KEY: !Sub "${LambdaCodeKey}"  # The key to the node_modules.zip file in S3
+
+  TechNewsFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: TechNewsFunction
+      Handler: functions/tech-news.handler
+      Runtime: nodejs18.x
+      Role: !GetAtt NewsFunctionRole.Arn
+      Code:
+        S3Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
+        S3Key: lambdafunctions.zip
+        S3ObjectVersion: '{{resolve:ssm:/MyApp/LambdaVersion}}'
+      MemorySize: 128
+      Timeout: 5
+      Layers:
+        - !Ref NodeModulesLayer  # Referencing the Lambda Layer
+  
+  TravelNewsFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: TravelNewsFunction
+      Handler: functions/travel-news.handler
+      Runtime: nodejs18.x
+      Role: !GetAtt NewsFunctionRole.Arn
+      Code:
+        S3Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
+        S3Key: lambdafunctions.zip
+        S3ObjectVersion: '{{resolve:ssm:/MyApp/LambdaVersion}}'
+      MemorySize: 128
+      Timeout: 15
+      Layers:
+        - !Ref NodeModulesLayer  # Referencing the Lambda Layer
+  
+  NewsParseFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: NewsParseFunction
+      Handler: functions/dynamodb_pull.handler
+      Runtime: nodejs18.x
+      Role: !GetAtt NewsFunctionRole.Arn
+      Code:
+        S3Bucket: !Sub "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
+        S3Key: lambdafunctions.zip
+        S3ObjectVersion: '{{resolve:ssm:/MyApp/LambdaVersion}}'
+      MemorySize: 128
+      Timeout: 15
+      Layers:
+        - !Ref NodeModulesLayer  # Referencing the Lambda Layer
+
+  # Api Creation
+  NewsApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: NewsApi
+
+  NewsResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref NewsApi
+      ParentId: !GetAtt NewsApi.RootResourceId
+      PathPart: news
+
+  NewsOptionsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref NewsApi
+      ResourceId: !Ref NewsResource
+      HttpMethod: OPTIONS
+      AuthorizationType: NONE
+      Integration:
+        Type: MOCK
+        RequestTemplates:
+          application/json: '{"statusCode": 200}'
+        IntegrationResponses:
+          - StatusCode: 200
+            ResponseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type'"
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+      MethodResponses:
+        - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: true
+            method.response.header.Access-Control-Allow-Methods: true
+            method.response.header.Access-Control-Allow-Origin: true
+
+  NewsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref NewsApi
+      ResourceId: !Ref NewsResource
+      HttpMethod: GET
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri: !Sub
+          - arn:aws:apigateway:${Region}:lambda:path/2015-03-31/functions/${LambdaArn}/invocations
+          - Region: !Ref AWS::Region
+            LambdaArn: !GetAtt NewsParseFunction.Arn
+      MethodResponses:
+        - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Origin: true
+      RequestParameters:
+        method.request.querystring.PK: true
+        method.request.querystring.num: true
+  
+  # Deployment
+  NewsApiDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn: NewsMethod
+    Properties:
+      RestApiId: !Ref NewsApi
+
+  # Explicit stage (clean, no MethodSettings)
+  NewsStage:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      StageName: informer-clean  # change the name temporarily
+      RestApiId: !Ref NewsApi
+      DeploymentId: !Ref NewsApiDeployment
+
+
+  # State machine definition
+  MyStateMachine:
+    Type: "AWS::StepFunctions::StateMachine"
+    Properties:
+      RoleArn: !GetAtt StateMachineRole.Arn
+      DefinitionString:
+        Fn::Sub: |
+            {
+              "Comment": "State machine to fetch news",
+              "StartAt": "ParallelBranch",
+              "States": {
+                "ParallelBranch": {
+                  "Type": "Parallel",
+                  "Branches": [
+                    {
+                      "StartAt": "WorldNews",
+                      "States": {
+                        "WorldNews": {
+                          "Type": "Task",
+                          "Resource": "${WorldNewsFunction.Arn}",
+                          "End": true
+                        }
+                      }
+                    },
+                    {
+                      "StartAt": "TechNews",
+                      "States": {
+                        "TechNews": {
+                          "Type": "Task",
+                          "Resource": "${TechNewsFunction.Arn}",
+                          "End": true
+                        }
+                      }
+                    },
+                    {
+                      "StartAt": "TravelNews",
+                      "States": {
+                        "TravelNews": {
+                          "Type": "Task",
+                          "Resource": "${TravelNewsFunction.Arn}",
+                          "End": true
+                        }
+                      }
+                    }
+                  ],
+                  "End": true
+                }
+              }
+            }
+
+Outputs:
+
+  ApiInvokeUrl:
+    Description: "API endpoint"
+    Value: !Sub "https://${NewsApi}.execute-api.${AWS::Region}.amazonaws.com/informer-clean/news"
+    Export:
+      Name: NewsApiEndpoint
