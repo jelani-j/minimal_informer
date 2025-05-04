@@ -25,10 +25,13 @@ exports.handler = async (event) => {
   try{
     const pk_var = event.queryStringParameters?.PK;
     const num = parseInt(event.queryStringParameters?.num)
-    const data = await getArticleData(pk_var,num);
+    const articles = await getArticleData(pk_var,num);
     return {
       statusCode: 200,
-      body: JSON.stringify( {message: "Passed Successfully!" })
+      headers: {
+        "Access-Control-Allow-Origin": "*"
+      },
+      body: JSON.stringify(articles)
     };
   }catch (error) {
       console.error("Error:", error);

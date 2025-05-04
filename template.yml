@@ -216,7 +216,31 @@ Resources:
       RestApiId: !Ref NewsApi
       ParentId: !GetAtt NewsApi.RootResourceId
       PathPart: news
-  
+
+  NewsOptionsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref NewsApi
+      ResourceId: !Ref NewsResource
+      HttpMethod: OPTIONS
+      AuthorizationType: NONE
+      Integration:
+        Type: MOCK
+        RequestTemplates:
+          application/json: '{"statusCode": 200}'
+        IntegrationResponses:
+          - StatusCode: 200
+            ResponseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type'"
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+      MethodResponses:
+        - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: true
+            method.response.header.Access-Control-Allow-Methods: true
+            method.response.header.Access-Control-Allow-Origin: true
+
   NewsMethod:
     Type: AWS::ApiGateway::Method
     Properties:
@@ -233,6 +257,8 @@ Resources:
             LambdaArn: !GetAtt NewsParseFunction.Arn
       MethodResponses:
         - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Origin: true
       RequestParameters:
         method.request.querystring.PK: false
         method.request.querystring.num: false
