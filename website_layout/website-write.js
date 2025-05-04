@@ -1,16 +1,14 @@
 
-// when api is completed move this to website folder this will be the .js to create the table from the data recieved via the backend lambda
-function displayTable(data, tableId) {
+// Create and Display Table Info
+function displayTable(data, tableId, category) {
   const table = document.getElementById(tableId);
   table.innerHTML = '';
-  // Add caption row at the top
-  const captionRow = table.createTHead().insertRow();
-  const captionCell = captionRow.insertCell(0);
-  captionCell.colSpan = 3; // spans all columns
-  captionCell.textContent = `${category} Table`;
-  captionCell.style.fontWeight = 'bold';
-  captionCell.style.textAlign = 'left';
-  captionCell.style.padding = '10px 0';
+  // Add <caption>
+  const caption = document.createElement('caption');
+  caption.textContent = `${category} Table`;
+  caption.style.fontWeight = 'bold';
+  caption.style.textAlign = 'left';
+  table.appendChild(caption);
 
   // Create header row
   const headerRow = table.insertRow();
@@ -96,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-
 //Travel News Triggers
 document.addEventListener('DOMContentLoaded', () => {
   const AdvNewsBtn = document.getElementById('advisory_news_button');
@@ -119,58 +116,3 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 });
-
-
-// // World News Triggers
-// document.addEventListener('DOMContentLoaded', () => {
-//     // Fetch JSON once and cache it
-//     let jsonData = null;
-//     //create function to display data to page via key/value pair to table
-//     //grab actual data from json file here
-//     fetch('api_data.json')
-//       .then(response => {
-//         if (!response.ok) throw new Error('Failed to load JSON');
-//         return response.json();
-//       })
-//       .then(data => {
-//         jsonData = data;
-//         // Add button event listeners here
-//         //global news page
-//         document.getElementById('environment_news_button').addEventListener('click', () => {
-//           displayTable(jsonData, 'world_news', 0, 'table-output');
-//         });
-//         document.getElementById('global_news_button').addEventListener('click', () => {
-//           displayTable(jsonData, 'world_news', 1, 'table-output');
-//         });
-//         document.getElementById('local_news_button').addEventListener('click', () => {
-//           displayTable(jsonData, 'world_news', 2, 'table-output');
-//         });
-//       });
-// });
-
-// // Tech News Triggers
-// document.addEventListener('DOMContentLoaded', () => {
-//   // Fetch JSON once and cache it
-//   let jsonData = null;
-//   //grab actual data from json file here
-//   fetch('api_data.json')
-//     .then(response => {
-//       if (!response.ok) throw new Error('Failed to load JSON');
-//       return response.json();
-//     })
-//     .then(data => {
-//       jsonData = data;
-//       // Add button event listeners here
-//       // tech news page
-//       document.getElementById('cloud_news_button').addEventListener('click', () => {
-//         displayTable(jsonData, 'tech_news', 0, 'table-output-tech');
-//       });
-//       document.getElementById('software_news_button').addEventListener('click', () => {
-//         displayTable(jsonData, 'tech_news', 1, 'table-output-tech');
-//       });
-//       document.getElementById('hardware_news_button').addEventListener('click', () => {
-//         displayTable(jsonData, 'tech_news', 2, 'table-output-tech');
-//       });
-
-//     });
-// });
