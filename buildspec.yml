@@ -8,14 +8,14 @@ phases:
       - echo Installing cfn-lint...
       - pip install cfn-lint
       - echo Installing Node.js dependencies...
-      - npm install
+      # - npm install
 
   pre_build:
     commands:
       # Prepare node modules zip folder 
-      - echo "Preparing Lambda Layer structure..."
-      - mkdir -p nodejs/node_modules
-      - mv node_modules/* nodejs/node_modules/
+      # - echo "Preparing Lambda Layer structure..."
+      # - mkdir -p nodejs/node_modules
+      # - mv node_modules/* nodejs/node_modules/
       - echo "Lambda Layer Structure Completed"
   build:
     commands:
