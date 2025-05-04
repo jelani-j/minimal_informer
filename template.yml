@@ -64,6 +64,9 @@ Resources:
                   - dynamodb:GetItem
                   - dynamodb:UpdateItem
                   - dynamodb:DeleteItem
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
                 Resource: "*"
 
   StateMachineRole:
@@ -85,6 +88,35 @@ Resources:
                 Action:
                   - lambda:InvokeFunction
                 Resource: "*"
+  #Log Creation for Debugging
+  NewsParseLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${NewsParseFunction}"
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+      
+  WorldNewsLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${WorldNewsFunction}"
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+  
+  TechNewsLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${TechNewsFunction}"
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+
+  TravelNewsLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${TravelNewsFunction}"
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+
   # Lambda Function Definition
   NewsFunctionRole:
     Type: AWS::IAM::Role
