@@ -39,6 +39,11 @@ exports.handler = async (event) => {
       console.error("Error:", error);
       return {
         statusCode: 500,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          'Access-Control-Allow-Headers': 'Content-Type',
+          'Access-Control-Allow-Methods': 'GET,OPTIONS',
+        },
         body: JSON.stringify({ error: "Failed to process request" }),
       };
     }
