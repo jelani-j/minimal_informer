@@ -130,7 +130,7 @@ Resources:
               Service: apigateway.amazonaws.com
             Action: sts:AssumeRole
       Policies:
-        - PolicyName: AllowCloudWatchLogs
+        - PolicyName: APIGatewayLoggingPolicy
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
@@ -140,7 +140,7 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource: "*"
-                
+
   NewsFunctionRole:
     Type: AWS::IAM::Role
     Properties:
