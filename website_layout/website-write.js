@@ -2,9 +2,11 @@
 // when api is completed move this to website folder this will be the .js to create the table from the data recieved via the backend lambda
 function displayTable(data, tableId) {
   const table = document.getElementById(tableId);
-  const table_data = data;
   table.innerHTML = '';
-
+  const table_data = Object.entries(data).map(([title, description]) => ({
+    title,
+    description
+  }));
   table_data.forEach((item, index) => {
     const row = table.insertRow();
     const cell1 = row.insertCell(0);
