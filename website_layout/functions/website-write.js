@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let jsonData = null;
     //create function to display data to page via key/value pair to table
     //grab actual data from json file here
-    fetch('api_data.json')
+    fetch('data/api_data.json')
       .then(response => {
         if (!response.ok) throw new Error('Failed to load JSON');
         return response.json();
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fetch JSON once and cache it
   let jsonData = null;
   //grab actual data from json file here
-  fetch('api_data.json')
+  fetch('data/api_data.json')
     .then(response => {
       if (!response.ok) throw new Error('Failed to load JSON');
       return response.json();
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fetch JSON once and cache it
   let jsonData = null;
   //grab actual data from json file here
-  fetch('api_data.json')
+  fetch('data/api_data.json')
     .then(response => {
       if (!response.ok) throw new Error('Failed to load JSON');
       return response.json();

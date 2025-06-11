@@ -3,7 +3,7 @@ import { SSMClient, GetParameterCommand} from "@aws-sdk/client-ssm";
 import * as fs from 'fs';
 const arn = "arn:aws:iam::203662895152:role/java-sdk-role";
 const stsClient = new STSClient({ region: "us-east-2"});
-export const filePath = "api_data.json";
+export const filePath = "data/api_data.json";
 
 
 
